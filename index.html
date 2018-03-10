@@ -25,8 +25,12 @@
 <body>
     <section class="header full-screen">
         <div class="container">
-            <div class="row my-auto head-content">
-                <h1 class="col">Verse</h1>
+            <div class="my-auto head-content">
+                <h1 class="row center" id="app-title">Verse</h1>
+                <div class="row center" id="slogan">The Rap Battle Game Where Legends are Made...</div>
+                <img class="row" id="logo">
+                <input placeholder="Enter your name" class="center" type="text" id="user-name"><br>
+                <button class="btn btn-standard center" id="user-name-submit">Get Started</button>
 
             </div>
             <div class="row selection-slide">
@@ -37,11 +41,34 @@
     </section>
     <section class="info-character full-screen">
         <div class="container">
-            <div class="row">
-
+            <div class="row instructions">
+                <ol>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ol>
             </div>
-            <div class="row">
-
+            <div class="row characters">
+                <div class="user-chars col-md-3" id="char-1">
+                    <img>
+                    <h4 class="user-char-title"></h4>
+                    <p class="user-char-bk-story"></p>
+                </div>
+                <div class="user-chars col-md-3" id="char-2">
+                    <img>
+                    <h4 class="user-char-title"></h4>
+                    <p class="user-char-bk-story"></p>
+                </div>
+                <div class="user-chars col-md-3" id="char-3">
+                    <img>
+                    <h4 class="user-char-title"></h4>
+                    <p class="user-char-bk-story"></p>
+                </div>
+                <div class="user-chars col-md-3" id="char-4">
+                    <img>
+                    <h4 class="user-char-title"></h4>
+                    <p class="user-char-bk-story"></p>
+                </div>
             </div>
         </div>
     </section>
@@ -49,28 +76,27 @@
         <div class="container">
             <div class="row">
                 <div id="hype-info">Instructions</div>
-                <div class="hype-char" id="drake">Drake</div>
-                <div class="hype-char" id="eminem">Eminem</div>
-                <div class="hype-char" id="dre">Dre</div>
-                <div class="hype-char" id="biggie">Biggie</div>
-                <div class="hype-char" id="tupac">Tupac</div>
-                <div class="hype-char" id="minaj">Minaj</div>
-                <div class="hype-char" id="snoop">Snoop</div>
-                <div class="hype-char">Woman</div>
+                <div class="hype-chars col-md-3" id="drake">Drake</div>
+                <div class="hype-chars col-md-3" id="eminem">Eminem</div>
+                <div class="hype-chars col-md-3" id="dre">Dre</div>
+                <div class="hype-chars col-md-3" id="biggie">Biggie</div>
+                <div class="hype-chars col-md-3" id="tupac">Tupac</div>
+                <div class="hype-chars col-md-3" id="minaj">Minaj</div>
+                <div class="hype-chars col-md-3" id="snoop">Snoop</div>
+                <div class="hype-chars col-md-3" id="kanye"></div>
             </div>
         </div>
     </section>
     <section class="build-rap full-screen">
         <div class="container">
             <div class="row">
-                <div class="user-rap">
+                <div class="col-md-6 user-rap">
                     <div id="random-line"></div>
                     <input type="text" id="user-line">
                 </div>
-                <div >
+                <div class="col-md-6 opponent-char">
 
                 </div>
-
             </div>
         </div>
     </section>
