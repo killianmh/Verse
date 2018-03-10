@@ -6,7 +6,6 @@ body {
 }
 
 .container{
-    max-width: 960px;
 }
 
 .full-screen{
@@ -38,6 +37,38 @@ input{
     font-size: 80px;
 }
 /* Info-character */
+.instructions{
+    height: 200px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px 10px;
+    margin: 20px 0;
+    border-radius: 20px;
+    color: white;
+}
+
+.user-chars{
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    border: white 1px solid;
+    height: 50vh;
+    text-align: center;
+}
 /* hype-chars */
+.hype-chars{
+    color: white;
+    text-align: center;
+ 
+}
+#hype-info{
+    margin: 10% 0;
+}
+.hype-char{
+    height: 30vh;
+    text-align: center;
+    color: white;
+}
+.hype-char>img{
+}
 /* build-rap */
 /* battle */
