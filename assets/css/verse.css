@@ -3,6 +3,7 @@ body {
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
+    color: white;
 }
 
 .container{
@@ -22,6 +23,8 @@ input{
     border-radius: 3px;
     width: 300px;
     text-align: center;
+    border: none;
+    padding: 3px;
 }
 /* Header */
 .header{
@@ -34,7 +37,13 @@ input{
     margin: 10px 0;
 }
 #app-title{
-    font-size: 80px;
+    font-size: 20vh;
+}
+#logo{
+    width: 10vh;
+    height: 10vh;
+    text-align: center;
+
 }
 /* Info-character */
 .instructions{
@@ -71,4 +80,28 @@ input{
 .hype-char>img{
 }
 /* build-rap */
+.build-rap{
+    display: flex;
+    align-items: center; 
+    color: white;
+}
+.user-rap{
+    background: black;
+    border-radius: 10px;
+    min-height: 50vh;
+    padding: 20px 30px;
+    text-align: center;
+}
+
 /* battle */
+/* Footer */
+footer{
+    height: 100px;
+    background: black;
+    text-align: center;
+    display: flex;
+    align-items: center; 
+}
+footer>p{
+    text-align: center;
+}
