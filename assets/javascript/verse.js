@@ -49,6 +49,77 @@ game = {
                 }
             });
         },
+        getRandomWord : function(){
+            var minCorpusCount = 50000;
+            var exclude1 = "proper-noun";
+            var exclude2 = "abbreviation";
+            var exclude3 = "article";
+        
+            var randomWordQueryURL = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&exclude"+ exclude1 + "&exclude" + exclude2 + "&exclude" + exclude3 + "&minCorpusCount="+minCorpusCount+"&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=4&maxLength=12&limit=1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+        
+            var word;
+        
+            $.ajax({
+                url: randomWordQueryURL,
+                method: "GET"
+            }).then(function(response){
+                word = response[0].word;
+                // displayword(word);
+                setTimeout(getRandomSentence(word),5000);
+            })
+            var exampleSentenceURL = "https://wordsapiv1.p.mashape.com/words/" + word;
+        
+        },
+        getRandomSentence : function(word){
+            console.log(word);
+        
+            var randomSentenceQueryURL = "http://api.wordnik.com:80/v4/word.json/"+ word + "/examples?includeDuplicates=false&useCanonical=false&skip=0&limit=50&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
+        
+            $.ajax({
+                url: randomSentenceQueryURL,
+                method: "GET"
+            }).then(function(response){
+                console.log(word);
+        
+                selectRapSentence(word, response,0);
+            })
+        },
+        selectRapSentence : function(word, response, num){
+            console.log(response.examples.length)
+            var word = word;
+            var response = response;
+            var rapSentence;
+        
+            for(i = 0; i<response.examples.length; i++){
+                var sentence = response.examples[i].text;
+                var splitSentence = sentence.split(word);
+                var snippet = splitSentence[num] + word;
+                console.log(snippet);
+        
+                var wordCount = 1;
+                for(j = 0; j<snippet.length; j++){
+                    if(snippet[j] === " "){
+                        wordCount++;
+                    }
+                }
+                var charCount = 0;
+                for(k = 0; k<snippet.length; k++){
+                    charCount++;
+                }
+                console.log(wordCount);
+                console.log(charCount);
+                if(wordCount <= 11 && wordCount > 6 && charCount < 40){
+                    rapSentence = snippet;
+                    console.log(wordCount);
+                    console.log(charCount);
+                    console.log(rapSentence);
+                    return
+                }
+            }
+            console.log(rapSentence)
+        
+            // Need to add code if this doesn't return a sentence
+        },
     },
     onClicks : {
         getUserName : function(){
@@ -87,6 +158,8 @@ game = {
                 var hypeMan = $(this).clone();
                 hypeMan.addClass('hype-choice-api');
                 $('.user-rap').append(hypeMan);
+                game.functions.getRandomWord();
+                
             });
         },
         getUserLine : function(){
