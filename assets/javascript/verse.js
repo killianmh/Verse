@@ -120,6 +120,34 @@ game = {
         
             // Need to add code if this doesn't return a sentence
         },
+        rhymeHelp : function(word){
+
+            var rhymeQueryURL = "https://wordsapiv1.p.mashape.com/words/"+word+"/rhymes";
+        
+            $.ajax({
+                url: rhymeQueryURL,
+                method: "GET",
+                headers: {
+                    "X-Mashape-Key": "ddjCflwLbmmshpr46LyV2dsijG5vp18NGwsjsnlNwVMkagEa6k",
+                    "X-Mashape-Host": "wordsapiv1.p.mashape.com"
+                }
+        
+            }).then(function(response){
+                console.log(response);
+                console.log(response.rhymes.all[0])
+        
+                var rand = Math.floor(Math.random()*(response.rhymes.all.length));
+                if(response.rhymes.all[rand] === word){
+                    var rand2 = Math.floor(Math.random()*(response.rhymes.all.length));
+                    console.log(response.rhymes.all[rand2])
+                    console.log("had to recalculate")
+                }
+                else{
+                    console.log(response.rhymes.all[rand]);
+                }
+                
+            })
+        },
     },
     onClicks : {
         getUserName : function(){
