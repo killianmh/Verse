@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="assets/css/verse.css">
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Firebase Ref -->
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
     <!-- BS JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- AOS JS -->
@@ -77,14 +79,14 @@
         <div class="container col-md-10 justify content-center">
                 <div id="hype-info">Choose Your Hypeman...</div>
             <div class="row">
-                <div class="hype-char col-md-3" >Drake<br><img id="drake"></div>
-                <div class="hype-char col-md-3" >Eminem<br><img id="eminem"></div>
-                <div class="hype-char col-md-3" >Dr. Dre<br><img id="dre"></div>
-                <div class="hype-char col-md-3" >Biggie<br><img id="biggie"></div>
-                <div class="hype-char col-md-3" >Tupac<br><img id="tupac"></div>
-                <div class="hype-char col-md-3" >Minaj<br><img id="minaj"></div>
-                <div class="hype-char col-md-3" >Snoop<br><img id="snoop"></div>
-                <div class="hype-char col-md-3" >Kanye<br><img id="kanye"></div>
+                <div class="hype-char col-md-3" >Drake<br><img class="hype-char-img" data-name="drake" src="assets/images/drake.png"></div>
+                <div class="hype-char col-md-3" >Eminem<br><img class="hype-char-img" data-name="eminem" src="assets/images/eminem.png"></div>
+                <div class="hype-char col-md-3" >Dr. Dre<br><img class="hype-char-img" data-name="dre" src="assets/images/dre.png"></div>
+                <div class="hype-char col-md-3" >Biggie<br><img class="hype-char-img" data-name="biggie" src="assets/images/biggie.png"></div>
+                <div class="hype-char col-md-3" >Tupac<br><img class="hype-char-img" data-name="tupac" src="assets/images/tupac.png"></div>
+                <div class="hype-char col-md-3" >Minaj<br><img class="hype-char-img" data-name="minaj" src="assets/images/minaj.png"></div>
+                <div class="hype-char col-md-3" >Snoop<br><img class="hype-char-img" data-name="snoop" src="assets/images/snoop.png"></div>
+                <div class="hype-char col-md-3" >Kanye<br><img class="hype-char-img" data-name="kanye" src="assets/images/kanye.png"></div>
             </div>
         </div>
     </section>
@@ -95,8 +97,9 @@
                     <div id="random-line">Test</div>
                     <input type="text" id="user-line">
                     <button class="btn btn-standard center" id="user-line-submit">Get Started</button>
-                    
+                    <!-- <img class="hype-char-img hype-choice-api" data-name="drake" src="assets/images/drake.png"> -->
                 </div>
+                
                 <div class="col-md-6 opponent-char">
 
                 </div>
@@ -114,7 +117,7 @@
     <footer>
         <div class="container col-md-10 justify content-center">
             <div class="row">
-                <p>Developed by Colin Nelson, Matt Killian, RJ Vasquez, & Steven Horkey</p>
+                <p>Created by Colin Nelson, Matt Killian, RJ Vasquez, & Steven Horkey</p>
             </div>
         </div>
     </footer>
