@@ -15,6 +15,8 @@ game = {
         username : "",
         userLine : "",
         hypeChoice : "",
+        word : "",
+        sentence : ""
     },
     functions : {
         generateGame : function(){
@@ -68,6 +70,8 @@ game = {
                 setTimeout(getRandomSentence(word),5000);
             })
             var exampleSentenceURL = "https://wordsapiv1.p.mashape.com/words/" + word;
+
+            game.variables.word = word;
         
         },
         getRandomSentence : function(word){
@@ -185,8 +189,9 @@ game = {
                 game.variables.hypeChoice = choice;
                 var hypeMan = $(this).clone();
                 hypeMan.addClass('hype-choice-api');
-                $('.user-rap').append(hypeMan);
+                $('.hype-chosen').append(hypeMan);
                 game.functions.getRandomWord();
+                game.functions.getRandomSentence(game.variables.word);
                 
             });
         },
@@ -202,6 +207,26 @@ game = {
                 }
             });
         },
+        hypeHelp : function(){
+            $('.rhyme-box').hide();
+            
+            $('.hype-chosen').hover(function(){
+                $('.rhyme-box').fadeIn();  
+                if(game.variables.hypeChoice == "eminem"){
+                    $('.rhyme-text').text("Mom\'s Spaghetti?");
+                } else{
+                    $('.rhyme-text').text('Need rhymes?')
+                }
+                console.log('hi')              
+            }, function(){
+                $('.rhyme-box').fadeOut();
+            });
+            $('.hype-choice-api').on('click', function(){
+                game.functions.rhymeHelp(game.variables.word);
+                console.log('het')
+
+            })
+        }
     }
 }
 
@@ -209,7 +234,8 @@ $(document).ready(function(){
     game.functions.generateGame();
     game.onClicks.getUserName();
     game.onClicks.chooseChar();
-    game.onClicks.chooseHype();    
+    game.onClicks.chooseHype();  
+    game.onClicks.hypeHelp();  
     game.onClicks.getUserLine();
-
+    AOS.init();
 });
