@@ -161,7 +161,7 @@ game = {
         getGifs : function(word, sentence, randomSentence) {
 
             $.ajax({
-                url:"http://api.giphy.com/v1/gifs/search?q=" + word + "&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
+                url:"http://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
                 method: "GET"
             }).then(function(response){
         
@@ -185,7 +185,7 @@ game = {
                 var memePicture = $('<img>').attr('src', response.data[0].images.fixed_height.url);
         
                 memeContainer.append(memeWord).append(memePicture).append(memeSentence);
-                $('#container').append(memeContainer);
+                $('.battle').append(memeContainer);
                 
                 });
         
@@ -210,6 +210,23 @@ game = {
                 }
             });   
         },
+
+        countdownTimer: function(){
+            var timeLeft = 30;
+            $('#time-box').text(timeLeft);
+            setInterval(function(){
+                timeLeft--;
+                $('#time-box').text(timeLeft);
+                if(timeLeft === 0){
+                   game.variables.userLine = $('#user-line').val().trim();
+                   getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+                   $('html, body').animate({
+                    scrollTop: $(".battle").offset().top
+                }, 400); 
+                $('.build-rap').fadeOut();  
+                }
+            }, 1000)
+        }
         
     onClicks : {
         getUserName : function(){
@@ -259,6 +276,7 @@ game = {
                 $('.hype-chosen').append(hypeMan);
                 game.functions.getRandomWord();
                 game.functions.getRandomSentence(game.variables.word);
+                game.functions.countdownTimer();
                 $('html, body').animate({
                     scrollTop: $(".build-rap").offset().top
                 }, 400); 
