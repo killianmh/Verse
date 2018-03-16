@@ -300,6 +300,7 @@ game = {
         }
     }
 }
+}
 
 $(document).ready(function(){
     game.functions.generateGame();
