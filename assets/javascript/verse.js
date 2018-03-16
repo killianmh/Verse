@@ -21,7 +21,8 @@ game = {
     pic : {
         arr: [],
         go: true,
-        imageObjectForArray: {}
+        imageObjectForArray: {},
+        indexNum: ""
     },
 
     functions : {
@@ -161,7 +162,7 @@ game = {
                 
             })
         },
-        getGifs : function(word, sentence, randomSentence) {
+        getGifs : function(word, sentence, givenSentence) {
 
             $.ajax({
                 url:"http://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
@@ -170,11 +171,13 @@ game = {
         
                 game.pic.imageObjectForArray = {
                     image: response.data[0].images.fixed_height.url,
-                    randomSentence: word,
+                    randomSentence: givenSentence,
                     userSentence: sentence
                 };
         
                 game.pic.arr.push(game.pic.imageObjectForArray);
+
+                game.pic.indexNum = game.pic.arr.length()-1;
         
         
                 database.ref('arrayContainer').set({
@@ -183,13 +186,14 @@ game = {
                 
         
                 var memeContainer = $('<div>').addClass('meme-container');
-                var memeWord = $('<h2>').text(randomSentence);
+                var memeWord = $('<h2>').text(givenSentence);
                 var memeSentence = $('<p>').text(sentence);
                 var memePicture = $('<img>').attr('src', response.data[0].images.fixed_height.url);
         
                 memeContainer.append(memeWord).append(memePicture).append(memeSentence);
                 $('.battle').append(memeContainer);
                 
+                game.onClicks.goToQueryPage();
                 });
         
         },
@@ -204,6 +208,7 @@ game = {
                     console.log(snapshot.child('arrayContainer/array').val());
 
                     game.pic.arr = snapshot.child('arrayContainer/array').val();
+
                     game.pic.go = true;
             
                 } else {
@@ -222,14 +227,15 @@ game = {
                 $('#time-box').text(timeLeft);
                 if(timeLeft === 0){
                    game.variables.userLine = $('#user-line').val().trim();
-                   getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+                   game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
                    $('html, body').animate({
                     scrollTop: $(".battle").offset().top
                 }, 400); 
                 $('.build-rap').fadeOut();  
                 }
             }, 1000)
-        }
+        },
+    },
         
     onClicks : {
         getUserName : function(){
@@ -326,10 +332,16 @@ game = {
                 
 
             })
+        },
+
+        goToQueryPage: function(){
+            $('#meme-container').on('click', function(){
+            document.location.href = "stephenhorkey.github.io/Project-One/queryPage.html?images=" + game.pic.indexNum;
+        });
         }
     }
 }
-}
+
 
 $(document).ready(function(){
     game.functions.generateGame();
