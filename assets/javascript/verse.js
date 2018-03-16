@@ -235,8 +235,8 @@ game = {
                 }
             }, 1000)
         },
-    },
-        
+    
+    },    
     onClicks : {
         getUserName : function(){
             // This function gets the name that the user inputs on the title page and saves it as the username to be used throughout the game. 
