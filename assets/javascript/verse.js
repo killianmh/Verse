@@ -336,7 +336,7 @@ game = {
 
         goToQueryPage: function(){
             $('#meme-container').on('click', function(){
-            document.location.href = "stephenhorkey.github.io/Project-One/queryPage.html?images=" + game.pic.indexNum;
+            document.location.href = "stevenhorkey.github.io/Project-One/queryPage.html?images=" + game.pic.indexNum;
         });
         }
     }
