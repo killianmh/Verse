@@ -18,7 +18,12 @@ game = {
         word : "",
         sentence : ""
     },
-    
+    pic : {
+        arr: [],
+        go: true,
+        imageObjectForArray: {}
+    },
+
     functions : {
         generateGame : function(){
             database.ref().set({
@@ -156,7 +161,76 @@ game = {
                 
             })
         },
-    },
+        getGifs : function(word, sentence, randomSentence) {
+
+            $.ajax({
+                url:"http://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
+                method: "GET"
+            }).then(function(response){
+        
+                game.pic.imageObjectForArray = {
+                    image: response.data[0].images.fixed_height.url,
+                    randomSentence: word,
+                    userSentence: sentence
+                };
+        
+                game.pic.arr.push(game.pic.imageObjectForArray);
+        
+        
+                database.ref('arrayContainer').set({
+                    array: game.pic.arr
+                });
+                
+        
+                var memeContainer = $('<div>').addClass('meme-container');
+                var memeWord = $('<h2>').text(randomSentence);
+                var memeSentence = $('<p>').text(sentence);
+                var memePicture = $('<img>').attr('src', response.data[0].images.fixed_height.url);
+        
+                memeContainer.append(memeWord).append(memePicture).append(memeSentence);
+                $('.battle').append(memeContainer);
+                
+                });
+        
+        },
+        giphyFirebase: function() {
+            database.ref('arrayContainer/trigger').set({
+                trigger: 'yes'
+            })
+            
+            database.ref().once('value', function(snapshot){
+                if(snapshot.child('arrayContainer/array').exists()){
+
+                    console.log(snapshot.child('arrayContainer/array').val());
+
+                    game.pic.arr = snapshot.child('arrayContainer/array').val();
+                    game.pic.go = true;
+            
+                } else {
+                    game.pic.go = true
+                } if(game.pic.go) {
+                    game.functions.getGifs('green', 'panther');
+                }
+            });   
+        },
+
+        countdownTimer: function(){
+            var timeLeft = 30;
+            $('#time-box').text(timeLeft);
+            setInterval(function(){
+                timeLeft--;
+                $('#time-box').text(timeLeft);
+                if(timeLeft === 0){
+                   game.variables.userLine = $('#user-line').val().trim();
+                   getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+                   $('html, body').animate({
+                    scrollTop: $(".battle").offset().top
+                }, 400); 
+                $('.build-rap').fadeOut();  
+                }
+            }, 1000)
+        }
+        
     onClicks : {
         getUserName : function(){
             // This function gets the name that the user inputs on the title page and saves it as the username to be used throughout the game. 
@@ -205,6 +279,7 @@ game = {
                 $('.hype-chosen').append(hypeMan);
                 game.functions.getRapSentence();
                 // $('#random-line').text(game.variables.sentence);
+                game.functions.countdownTimer();
                 $('html, body').animate({
                     scrollTop: $(".build-rap").offset().top
                 }, 400); 
@@ -253,6 +328,7 @@ game = {
             })
         }
     }
+}
 }
 
 $(document).ready(function(){
