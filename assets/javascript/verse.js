@@ -18,6 +18,7 @@ game = {
         word : "",
         sentence : ""
     },
+    
     functions : {
         generateGame : function(){
             database.ref().set({
@@ -51,78 +52,81 @@ game = {
                 }
             });
         },
-        getRandomWord : function(){
+        getRapSentence : function() {
+            var word;
+            var rapSentence;
+        
             var minCorpusCount = 50000;
             var exclude1 = "proper-noun";
             var exclude2 = "abbreviation";
             var exclude3 = "article";
         
-            var randomWordQueryURL = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&exclude"+ exclude1 + "&exclude" + exclude2 + "&exclude" + exclude3 + "&minCorpusCount="+minCorpusCount+"&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=4&maxLength=12&limit=1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+            var charMin = 35;
+            var charMax = 40;
         
-            var word;
+            var randomWordQueryURL = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&excludePartOfSpeech="+ exclude1 + "&excludePartOfSpeech=" + exclude2 + "&excludePartOfSpeech=" + exclude3 + "&minCorpusCount="+minCorpusCount+"&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=4&maxLength=12&limit=1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
         
             $.ajax({
                 url: randomWordQueryURL,
                 method: "GET"
-            }).then(function(response){
-                word = response[0].word;
-                // displayword(word);
-                setTimeout(getRandomSentence(word),5000);
-            })
-            var exampleSentenceURL = "https://wordsapiv1.p.mashape.com/words/" + word;
+            }).then(function(randomWordResponse){
+                word = randomWordResponse[0].word;
 
-            game.variables.word = word;
+                var maxSentences = 70;
         
-        },
-        getRandomSentence : function(word){
-            console.log(word);
+                var randomSentenceQueryURL = "http://api.wordnik.com:80/v4/word.json/"+ word + "/examples?includeDuplicates=false&useCanonical=false&skip=0&limit="+maxSentences+"&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
         
-            var randomSentenceQueryURL = "http://api.wordnik.com:80/v4/word.json/"+ word + "/examples?includeDuplicates=false&useCanonical=false&skip=0&limit=50&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
+                $.ajax({
+                    url: randomSentenceQueryURL,
+                    method: "GET"
+                }).then(function(randomSentenceResponse){
         
-            $.ajax({
-                url: randomSentenceQueryURL,
-                method: "GET"
-            }).then(function(response){
-                console.log(word);
+                    for(i = 0; i<randomSentenceResponse.examples.length; i++){
+                        var sentence = randomSentenceResponse.examples[i].text;
+                        var splitSentence = sentence.split(word);
+                        var snippet = splitSentence[0] + word;
+                        var charCount = 0;
         
-                selectRapSentence(word, response,0);
-            })
-        },
-        selectRapSentence : function(word, response, num){
-            console.log(response.examples.length)
-            var word = word;
-            var response = response;
-            var rapSentence;
-        
-            for(i = 0; i<response.examples.length; i++){
-                var sentence = response.examples[i].text;
-                var splitSentence = sentence.split(word);
-                var snippet = splitSentence[num] + word;
-                console.log(snippet);
-        
-                var wordCount = 1;
-                for(j = 0; j<snippet.length; j++){
-                    if(snippet[j] === " "){
-                        wordCount++;
+                        for(k = 0; k<snippet.length; k++){
+                            charCount++;
+                        }
+                        
+                        if(charCount > charMin && charCount < charMax){
+                            rapSentence = snippet;
+                            game.variables.word = word;
+                            game.variables.sentence = rapSentence;
+                            console.log(game.variables.word);
+                            console.log(game.variables.sentence);
+                            $('#random-line').text(game.variables.sentence+'...');
+                            return
+                        }
                     }
-                }
-                var charCount = 0;
-                for(k = 0; k<snippet.length; k++){
-                    charCount++;
-                }
-                console.log(wordCount);
-                console.log(charCount);
-                if(wordCount <= 11 && wordCount > 6 && charCount < 40){
-                    rapSentence = snippet;
-                    console.log(wordCount);
-                    console.log(charCount);
-                    console.log(rapSentence);
-                    return
-                }
-            }
-            console.log(rapSentence)
+                    
+                    if(rapSentence === undefined){
+                        
+                        for(i = 0; i<randomSentenceResponse.examples.length; i++){
+                            var sentence2 = randomSentenceResponse.examples[i].text;
+                            var splitSentence2 = sentence2.split(word);
+                            var snippet2 = splitSentence2[0] + word;
+                            var charCount2 = 0;
         
-            // Need to add code if this doesn't return a sentence
+                            for(k = 0; k<snippet2.length; k++){
+                                charCount2++;
+                            }
+                            
+                            if(charCount2 > (charMin - 5) && charCount2 < (charMax + 5)){
+                                rapSentence = snippet2;
+                                game.variables.word = word;
+                                game.variables.sentence = rapSentence;
+                                console.log(word);
+                                console.log(rapSentence);
+                                $('#random-line').text(game.variables.sentence);
+                            return
+                        }
+                    }
+                    }
+                })
+            })
         },
         rhymeHelp : function(word){
 
@@ -199,14 +203,20 @@ game = {
                 var hypeMan = $(this).clone();
                 hypeMan.addClass('hype-choice-api');
                 $('.hype-chosen').append(hypeMan);
-                game.functions.getRandomWord();
-                game.functions.getRandomSentence(game.variables.word);
+                game.functions.getRapSentence();
+                // $('#random-line').text(game.variables.sentence);
                 $('html, body').animate({
                     scrollTop: $(".build-rap").offset().top
                 }, 400); 
                 $('.hype-chars').fadeOut();
-                
-                
+                 
+            });
+        },
+        getNewLine : function(){
+            $('#random-line').text(game.variables.sentence);
+            
+            $('#want-new-line').on('click',function(){
+                game.functions.getRapSentence();
             });
         },
         getUserLine : function(){
@@ -222,21 +232,23 @@ game = {
             });
         },
         hypeHelp : function(){
-            $('.rhyme-box').hide();
+            // $('.rhyme-box').hide();
             
             $('.hype-chosen').hover(function(){
                 $('.rhyme-box').fadeIn();  
                 if(game.variables.hypeChoice == "eminem"){
-                    $('.rhyme-text').text("Mom\'s Spaghetti?");
+                    $('.rhyme-text').text("Mom's Spaghetti?");
                 } else{
                     $('.rhyme-text').text('Need rhymes?')
                 }
             }, function(){
-                $('.rhyme-box').fadeOut();
+                // $('.rhyme-box').fadeOut();
             });
             $('.hype-chosen').on('click', function(){
                 game.functions.rhymeHelp(game.variables.word);
-                console.log('het')
+                $('.rhyme-text').text('')
+                
+                
 
             })
         }
@@ -250,5 +262,9 @@ $(document).ready(function(){
     game.onClicks.chooseHype();  
     game.onClicks.hypeHelp();  
     game.onClicks.getUserLine();
+    game.onClicks.getNewLine();
     AOS.init();
+
+   
+
 });
