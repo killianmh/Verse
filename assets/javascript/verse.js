@@ -223,7 +223,8 @@ game = {
                     // Scrolls page to next section
                     $('html, body').animate({
                         scrollTop: $(".info-character").offset().top
-                    }, 400);   
+                    }, 400); 
+                    $('.header').fadeOut();  
                     game.functions.checkPlayers()
                 };
                              
@@ -239,6 +240,14 @@ game = {
             $('.user-chars').on('click',function(){
                 var choice = $(this);
                 console.log(choice.attr('id'));
+                // Scrolls page to next section
+                
+                $('html, body').animate({
+                    scrollTop: $(".hype-chars").offset().top
+                }, 400);  
+                $('.info-character').fadeOut();
+                
+                
             });
         },
         chooseHype : function(){
@@ -250,6 +259,11 @@ game = {
                 $('.hype-chosen').append(hypeMan);
                 game.functions.getRandomWord();
                 game.functions.getRandomSentence(game.variables.word);
+                $('html, body').animate({
+                    scrollTop: $(".build-rap").offset().top
+                }, 400); 
+                $('.hype-chars').fadeOut();
+                
                 
             });
         },
@@ -275,11 +289,10 @@ game = {
                 } else{
                     $('.rhyme-text').text('Need rhymes?')
                 }
-                console.log('hi')              
             }, function(){
                 $('.rhyme-box').fadeOut();
             });
-            $('.hype-choice-api').on('click', function(){
+            $('.hype-chosen').on('click', function(){
                 game.functions.rhymeHelp(game.variables.word);
                 console.log('het')
 
