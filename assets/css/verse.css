@@ -142,6 +142,17 @@ input{
     font-size: 22px;
     font-style: italic;
 }
+#time-box{
+    position: absolute;
+    width: 30px;
+    top: 108px;
+    right: 65px;
+    color: rgba(121, 111, 102, 1);
+    background: black;
+    border-radius: 0 15px 15px 0;
+    height: 40px;
+    line-height: 40px;
+}
 .hype-choice-api{
     width: 120px;    
     border: 2px solid white;

@@ -222,15 +222,16 @@ game = {
                 $('#time-box').text(timeLeft);
                 if(timeLeft === 0){
                    game.variables.userLine = $('#user-line').val().trim();
-                   getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+                   game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
                    $('html, body').animate({
                     scrollTop: $(".battle").offset().top
                 }, 400); 
                 $('.build-rap').fadeOut();  
                 }
             }, 1000)
-        }
-        
+        },
+    
+    },    
     onClicks : {
         getUserName : function(){
             // This function gets the name that the user inputs on the title page and saves it as the username to be used throughout the game. 
@@ -329,7 +330,7 @@ game = {
         }
     }
 }
-}
+
 
 $(document).ready(function(){
     game.functions.generateGame();
