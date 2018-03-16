@@ -165,7 +165,7 @@ game = {
         getGifs : function(word, sentence, givenSentence) {
 
             $.ajax({
-                url:"http://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
+                url:"https://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
                 method: "GET"
             }).then(function(response){
         
@@ -336,7 +336,7 @@ game = {
 
         goToQueryPage: function(){
             $('#meme-container').on('click', function(){
-            document.location.href = "stevenhorkey.github.io/Project-One/queryPage.html?images=" + game.pic.indexNum;
+            document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + game.pic.indexNum;
         });
         }
     }
