@@ -234,6 +234,10 @@ game = {
     },    
     onClicks : {
         getUserName : function(){
+            $('.info-character').hide()
+            $('.hype-chars').hide()
+            $('.build-rap').hide()
+            $('.battle').hide()
             // This function gets the name that the user inputs on the title page and saves it as the username to be used throughout the game. 
             $('#user-name-submit').on('click', function(){
                 var input = $('#user-name').val().trim();
@@ -242,11 +246,12 @@ game = {
                     console.log(game.variables.username)
 
                     // Scrolls page to next section
+                    $('.info-character').fadeIn();
                     $('html, body').animate({
                         scrollTop: $(".info-character").offset().top
                     }, 400); 
                     $('.header').fadeOut();  
-                    game.functions.checkPlayers()
+                    game.functions.checkPlayers();
                 };
                              
             });
@@ -262,7 +267,7 @@ game = {
                 var choice = $(this);
                 console.log(choice.attr('id'));
                 // Scrolls page to next section
-                
+                $('.hype-chars').fadeIn();
                 $('html, body').animate({
                     scrollTop: $(".hype-chars").offset().top
                 }, 400);  
@@ -281,6 +286,8 @@ game = {
                 game.functions.getRapSentence();
                 // $('#random-line').text(game.variables.sentence);
                 game.functions.countdownTimer();
+                $('.build-rap').fadeIn();
+                
                 $('html, body').animate({
                     scrollTop: $(".build-rap").offset().top
                 }, 400); 

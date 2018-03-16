@@ -21,7 +21,7 @@ body {
     width: 100%;
     min-height: 100vh;
     height: fit-content;
-    border: 1px white solid;
+    /* border: 1px white solid; */
 }
 
 
@@ -128,30 +128,42 @@ input{
     padding: 20px 30px;
     text-align: center;
 }
-#user-line{
-    width: 90%;
-    margin: 20px 0;
-    font-size: 22px;
-    border-radius: 20px;
-}
+
 #want-new-line{
-    border-radius: 0px;
+    border-radius: 20px;
     width: 200px;
 }
 #random-line{
     font-size: 22px;
     font-style: italic;
 }
+#user-line-clock{
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    margin: 20px
+}
+#user-line{
+    width: 80%;
+    
+}
 #time-box{
-    position: absolute;
-    width: 30px;
-    top: 108px;
-    right: 65px;
-    color: rgba(121, 111, 102, 1);
-    background: black;
-    border-radius: 0 15px 15px 0;
-    height: 40px;
-    line-height: 40px;
+    float: right;
+    background: grey;
+    width: 10%;
+    position: relative;
+    line-height: 32px;
+    height: 32px;
+    bottom: 1px;
+    border-radius: 0 20px 20px 0;
+    /* position: relative;
+    width: 75px;
+    bottom: 59px;
+    right: 439px;
+    color: black;
+    background: grey;
+    border-radius: 0 20px 20px 0;
+    line-height: 40px; */
 }
 .hype-choice-api{
     width: 120px;    
