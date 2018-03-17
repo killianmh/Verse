@@ -29,9 +29,36 @@ game = {
 
     functions : {
         generateGame : function(){
+<<<<<<< HEAD
             database.ref().once("value", function(snapshot){
                 if (snapshot.child('players/2/username').val() === "") { 
                     console.log('test')
+=======
+            database.ref("players").set({
+                    1 : {
+                        username : "",
+                        userLine : "",
+                        userChar : "",
+                        userImage: {}
+                        
+                    },
+                    2 : {
+                        username : "",
+                        userLine : "",
+                        userChar : "",
+                        userImage : {}
+                    }
+                }),
+            database.ref().update({
+                step : 1
+            })
+        },
+                checkPlayers : function(){
+            
+            // database.ref().on("value", function(snapshot){
+            //     // console.log(snapshot.val().players.one.username);
+            //     // if (snapshot.val().step === 1){
+>>>>>>> c2826b814620d788626ddfacaf491fdc6a27d6a4
                     
                 } else {
                     console.log(snapshot)
@@ -177,7 +204,9 @@ game = {
             }
         },
         getGifs : function(word, sentence, givenSentence) {
-
+            database.ref().push({
+                string: "ebfiwjnfijsnv"
+            })
             $.ajax({
                 url:"https://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
                 method: "GET"
@@ -189,15 +218,24 @@ game = {
                     userSentence: sentence
                 };
         
+            
                 game.pic.arr.push(game.pic.imageObjectForArray);
                 console.log(game.pic.arr);
 
+<<<<<<< HEAD
                 // game.pic.indexNum = game.pic.arr.length()-1;
+=======
+                game.pic.indexNum = (game.pic.arr.length()) - 1;
+>>>>>>> c2826b814620d788626ddfacaf491fdc6a27d6a4
         
         
                 database.ref('arrayContainer').update({
                     array: game.pic.arr
                 });
+
+                database.ref('player/' + game.variables.player).update({
+                    userImage : game.pic.imageObjectForArray
+                })
                 
         
                 var memeContainer = $('<div>').addClass('meme-container');
@@ -241,6 +279,7 @@ game = {
                 timeLeft--;
                 $('#time-box').text(timeLeft);
                 if(timeLeft === 0){
+<<<<<<< HEAD
                     game.variables.userLine = $('#user-line').val().trim();
                     if(game.variables.player === 1){
                         game.functions.giphyFirebase();
@@ -270,6 +309,20 @@ game = {
                     $('.battle').show();
                     $('html, body').animate({
                         scrollTop: $(".battle").offset().top
+=======
+                    
+                   game.variables.userLine = $('#user-line').val().trim();
+                   if(game.variables.player === 1){
+                       game.functions.giphyFirebase();
+                   } else if (game.variables.player === 2){
+                       setTimeout(game.functions.giphyFirebase, 1000);
+                   }
+                //    game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+                    // game.functions.giphyFirebase();
+                   $('.battle').show();
+                   $('html, body').animate({
+                    scrollTop: $(".battle").offset().top
+>>>>>>> c2826b814620d788626ddfacaf491fdc6a27d6a4
                 }, 400); 
                 $('.build-rap').fadeOut();  
                 }
@@ -471,7 +524,7 @@ game = {
                 $('.rhyme-box').fadeIn();  
                 if(game.variables.hypeChoice == "eminem"){
                     $('.rhyme-text').text("Mom's Spaghetti?");
-                } else{
+t                 } else{
                     $('.rhyme-text').text('Need rhymes?')
                 }
             }, function(){
