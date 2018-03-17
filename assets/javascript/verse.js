@@ -34,26 +34,22 @@ game = {
 
     functions : {
         generateGame : function(){
-
-            // database.ref().once("value", function(snapshot){
-            //     if (snapshot.val().players.one.username)
-            // });
-            // database.ref().set({
-            //     players : {
-            //         one : {
-            //             username : "",
-            //             userLine : "",
-            //             userChar : "",
+            database.ref().set({
+                players : {
+                    one : {
+                        username : "",
+                        userLine : "",
+                        userChar : "",
                         
-            //         },
-            //         two : {
-            //             username : "",
-            //             userLine : "",
-            //             userChar : "",
-            //         }
-            //     },
-            //     step : 1,
-            // });
+                    },
+                    two : {
+                        username : "",
+                        userLine : "",
+                        userChar : "",
+                    }
+                },
+                step : 1,
+            });
         },
         checkPlayers : function(){
             
@@ -294,24 +290,24 @@ game = {
             $('#user-name-submit').on('click', function(){
                 var input = $('#user-name').val().trim();
                 if (input !== ""){
-                    database.ref().on("value", function(snapshot){
-                        if (snapshot.val().step === 1){
-                            game.variables.username1 = input
-                            database.ref('players/one').update({
-                                username : game.variables.username1
-                            })
-                            database.ref().update({
-                                step : 2
-                            })   
-                        } else if (snapshot.val().step === 2){
-                            game.variables.username2 = input                            
-                            database.ref('players/two').update({
-                                username : game.variables.username2
-                            })
-                            database.ref().update({
-                                step : 3
-                            })
-                        } 
+                    database.ref().once("value", function(snapshot){
+                        // if (snapshot.val().step === 1){
+                        //     game.variables.username1 = input
+                        //     database.ref('players/one').update({
+                        //         username : game.variables.username1
+                        //     })
+                        //     database.ref().update({
+                        //         step : 2
+                        //     })   
+                        // } else if (snapshot.val().step === 2){
+                        //     game.variables.username2 = input                            
+                        //     database.ref('players/two').update({
+                        //         username : game.variables.username2
+                        //     })
+                        //     database.ref().update({
+                        //         step : 3
+                        //     })
+                        // } 
                     });
                     if (game.variables.username1 !== '' && game.variables.username2 !== ''){
                         // Scrolls page to next section
@@ -433,7 +429,7 @@ game = {
 
 $(document).ready(function(){
     game.functions.generateGame();
-    game.functions.checkPlayers();                        
+    // game.functions.checkPlayers();                        
     game.onClicks.getUserName();
     game.onClicks.chooseChar();
     game.onClicks.chooseHype();  
@@ -443,20 +439,5 @@ $(document).ready(function(){
     AOS.init();
 
    
-    database.ref().set({
-        players : {
-            one : {
-                username : "",
-                userLine : "",
-                userChar : "",
-                
-            },
-            two : {
-                username : "",
-                userLine : "",
-                userChar : "",
-            }
-        },
-        step : 1,
-    });
+    
 });
