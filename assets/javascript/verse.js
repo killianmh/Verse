@@ -250,7 +250,7 @@ game = {
                 game.pic.arr.push(game.pic.imageObjectForArray);
                 console.log(game.pic.arr);
 
-                game.pic.indexNum = (game.pic.arr.length()) - 1;
+                game.pic.indexNum = game.pic.arr.length - 1;
         
         
                 database.ref('arrayContainer').update({
