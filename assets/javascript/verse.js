@@ -202,43 +202,53 @@ game = {
                     userImage : game.pic.imageObjectForArray
                 })
                 
-                database.ref('player/2').on("value", function(snapshot){
+                // game.functions.create();
+                if (game.variables.player === 1){
+                    setTimeout(game.functions.create,5000)
+                } else if (game.variables.player === 2){
+                    game.functions.create()
+                }
                 
-                    database.ref('player').once("value", function(snapshot){
-                    
-                    
-                    // setTimeout(function(){
-                        // console.log(snapshot.child('player/1').val().userImage.randomSentence)
-                        var memeContainer1 = $('<div>').addClass('meme-container');
-                        var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
-                        var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
-                        var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
-                        memeContainer1.append(memeWord1).append(memePicture1).append(memeSentence1);
-                        
-                        
-                    // },10000)
-                    
-                    
-
-                    
-                    
-                        var memeContainer2 = $('<div>').addClass('meme-container');
-                        var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
-                        var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
-                        var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
-                        memeContainer2.append(memeWord2).append(memePicture2).append(memeSentence2);
-                        console.log('testing inside')
-                    
-
-
-                        $('.battle').append(memeContainer1).append(memeContainer2);
-                    })
-                
-                });
                 
                 game.onClicks.goToQueryPage();
                 });
         
+        },
+        create : function(){
+
+            database.ref('player/2').on("value", function(snapshot){
+                
+                database.ref('player').once("value", function(snapshot){
+                
+                
+                // setTimeout(function(){
+                    // console.log(snapshot.child('player/1').val().userImage.randomSentence)
+                    var memeContainer1 = $('<div>').addClass('meme-container');
+                    var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
+                    var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
+                    var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
+                    memeContainer1.append(memeWord1).append(memePicture1).append(memeSentence1);
+                    
+                    
+                // },10000)
+                
+                
+
+                
+                
+                    var memeContainer2 = $('<div>').addClass('meme-container');
+                    var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
+                    var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
+                    var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
+                    memeContainer2.append(memeWord2).append(memePicture2).append(memeSentence2);
+                    console.log('testing inside')
+                
+
+
+                    $('.battle').append(memeContainer1).append(memeContainer2);
+                })
+            
+            });
         },
         giphyFirebase: function() {
             database.ref('arrayContainer/trigger').set({
