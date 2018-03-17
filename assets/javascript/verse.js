@@ -178,31 +178,65 @@ game = {
         },
         rhymeHelp : function(word){
 
+            var numWords = 5;
             var rhymeQueryURL = "https://wordsapiv1.p.mashape.com/words/"+word+"/rhymes";
-        
+
             $.ajax({
                 url: rhymeQueryURL,
                 method: "GET",
                 headers: {
-                    "X-Mashape-Key": "ddjCflwLbmmshpr46LyV2dsijG5vp18NGwsjsnlNwVMkagEa6k",
-                    "X-Mashape-Host": "wordsapiv1.p.mashape.com"
+                "X-Mashape-Key": "ddjCflwLbmmshpr46LyV2dsijG5vp18NGwsjsnlNwVMkagEa6k",
+                "X-Mashape-Host": "wordsapiv1.p.mashape.com"
                 }
-        
-            }).then(function(response){
-                console.log(response);
-                console.log(response.rhymes.all[0])
-        
-                var rand = Math.floor(Math.random()*(response.rhymes.all.length));
-                if(response.rhymes.all[rand] === word){
-                    var rand2 = Math.floor(Math.random()*(response.rhymes.all.length));
-                    console.log(response.rhymes.all[rand2])
-                    console.log("had to recalculate")
-                }
+
+                }).then(function(response){
+                    if(response.rhymes.all === undefined || response.rhymes.all.length === 1){
+                        $(".rhyme-text").text("Try 'Mom's Spaghetti'");
+                    }
                 else{
-                    console.log(response.rhymes.all[rand]);
+                   var rhymeArray = [];
+                   var bigRhymeArray = response.rhymes.all;
+        
+                   if(bigRhymeArray.includes(word)){
+                      var index = bigRhymeArray.indexOf(word);
+                      bigRhymeArray.splice(index,1);
+                    }
+        
+                    var location = bigRhymeArray.indexOf(word);
+                    var length;
+                    var repeatIndex;
+            
+                    if(bigRhymeArray.length > numWords){
+                        length = numWords;
+                    }
+                    else{
+                        length = bigRhymeArray.length;
+                    }
+                    for(i = 0; i < bigRhymeArray.length; i++){
+                        if(rhymeArray.length === length){
+                            $(".rhyme-text").empty();
+                            console.log(rhymeArray)
+                            $(".rhyme-text").append("<li>"+rhymeArray[0]+"</li>");
+                            $(".rhyme-text").append("<li>"+rhymeArray[1]+"</li>");
+                            $(".rhyme-text").append("<li>"+rhymeArray[2]+"</li>");
+                            $(".rhyme-text").append("<li>"+rhymeArray[3]+"</li>");
+                            $(".rhyme-text").append("<li>"+rhymeArray[4]+"</li>");
+                            return rhymeArray
+                        }
+                        else{
+                            var rand = randNum(bigRhymeArray.length);
+                            if(!rhymeArray.includes(bigRhymeArray[rand])){
+                                rhymeArray.push(bigRhymeArray[rand]);
+                            }
+                        }
+                    }
                 }
-                
-            })
+                })
+
+            function randNum(length){
+                var randNum = Math.floor(Math.random()*(length));
+                return randNum
+            }
         },
         getGifs : function(word, sentence, givenSentence) {
 
