@@ -206,12 +206,29 @@ game = {
                     userImage : game.pic.imageObjectForArray
                 })
                 
+                database.ref().once("value", function(snapshot){
+                    var memeContainer1 = $('<div>').addClass('meme-container');
+                    var memeWord1 = $('<h2>').text(snapshot.child('player/1/userimage/randomSentence').val());
+                    var memeSentence1 = $('<p>').text(snapshot.child('player/1/userimage/userSentence').val());
+                    var memePicture1 = $('<img>').attr('src', snapshot.child('player/1/userimage/image').val());
+                    memeContainer1.append(memeWord1).append(memePicture1).append(memeSentence1);
+
+                    var memeContainer2 = $('<div>').addClass('meme-container');
+                    var memeWord2 = $('<h2>').text(snapshot.child('player/2/userimage/randomSentence').val());
+                    var memeSentence2 = $('<p>').text(snapshot.child('player/2/userimage/userSentence').val());
+                    var memePicture2 = $('<img>').attr('src', snapshot.child('player/2/userimage/image').val());
+                    memeContainer2.append(memeWord2).append(memePicture2).append(memeSentence2);
+                    console.log('testing inside')
+                    
+
+
+                    $('.battle').append(memeContainer1).append(memeContainer2);
+                })
         
                 var memeContainer = $('<div>').addClass('meme-container');
                 var memeWord = $('<h2>').text(givenSentence);
                 var memeSentence = $('<p>').text(sentence);
                 var memePicture = $('<img>').attr('src', response.data[0].images.fixed_height.url);
-        
                 memeContainer.append(memeWord).append(memePicture).append(memeSentence);
                 $('.battle').append(memeContainer);
                 
@@ -260,13 +277,12 @@ game = {
                                     username : "",
                                     userLine : "",
                                     userChar : "",
-                                    
                                 },
                                 2 : {
                                     username : "",
                                     userLine : "",
                                     userChar : "",
-                                }
+                                },
                             }),
                             database.ref().update({
                                 step : 1
