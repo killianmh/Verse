@@ -477,20 +477,20 @@ $(document).ready(function(){
     AOS.init();
 
    
-    database.ref('players').set({
-            one : {
-                username : "",
-                userLine : "",
-                userChar : "",
+    // database.ref('players').set({
+    //         one : {
+    //             username : "",
+    //             userLine : "",
+    //             userChar : "",
                 
-            },
-            two : {
-                username : "",
-                userLine : "",
-                userChar : "",
-            }
-        })
-    });
-    database.ref('step').set({
-        step : 1
-    })
+    //         },
+    //         two : {
+    //             username : "",
+    //             userLine : "",
+    //             userChar : "",
+    //         }
+    //     });
+    // database.ref('step').set({
+    //     step : 1
+    // });
+});
