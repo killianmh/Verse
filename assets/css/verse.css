@@ -85,8 +85,16 @@ input{
     background: rgba(0, 0, 0, 0.8);
     width: 100%;
     border: white 1px solid;
-    height: 50vh;
+    min-height: 50vh;
+    height: fit-content;
     text-align: center;
+    padding: 30px;
+}
+.user-chars img{
+    width: 80%;
+}
+.user-char-title{
+    margin: 20px 0;
 }
 /* hype-chars */
 .hype-chars{
@@ -218,7 +226,7 @@ input{
     overflow: scroll;
     list-style-type: none;
     position: relative;
-    top: 20%;
+    top: 2%;
     left: 32px;
 }
 .rhyme-text:-webkit-scrollbar {

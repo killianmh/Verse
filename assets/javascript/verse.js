@@ -19,12 +19,6 @@ game = {
         hypeChoice : "",
         word : "",
         sentence : "",
-        // username : "",
-        // userChar : "",
-        // userLine : "",
-        // hypeChoice2 : "",
-        // word2 : "",
-        // sentence2 : ""
     },
     pic : {
         arr: [],
@@ -35,8 +29,7 @@ game = {
 
     functions : {
         generateGame : function(){
-            database.ref().set({
-                players : {
+            database.ref("players").set({
                     1 : {
                         username : "",
                         userLine : "",
@@ -48,9 +41,10 @@ game = {
                         userLine : "",
                         userChar : "",
                     }
-                },
-                step : 1,
-            });
+                }),
+            database.ref().update({
+                step : 1
+            })
         },
         checkPlayers : function(){
             
@@ -175,7 +169,7 @@ game = {
         },
         rhymeHelp : function(word){
 
-            var numWords = 5;
+            var numWords = 4;
             var rhymeQueryURL = "https://wordsapiv1.p.mashape.com/words/"+word+"/rhymes";
 
             $.ajax({
@@ -217,7 +211,7 @@ game = {
                             $(".rhyme-text").append("<li>"+rhymeArray[1]+"</li>");
                             $(".rhyme-text").append("<li>"+rhymeArray[2]+"</li>");
                             $(".rhyme-text").append("<li>"+rhymeArray[3]+"</li>");
-                            $(".rhyme-text").append("<li>"+rhymeArray[4]+"</li>");
+                            // $(".rhyme-text").append("<li>"+rhymeArray[4]+"</li>");
                             return rhymeArray
                         }
                         else{
@@ -249,11 +243,12 @@ game = {
                 };
         
                 game.pic.arr.push(game.pic.imageObjectForArray);
+                console.log(game.pic.arr);
 
                 //game.pic.indexNum = game.pic.arr.length()-1;
         
         
-                database.ref('arrayContainer').set({
+                database.ref('arrayContainer').update({
                     array: game.pic.arr
                 });
                 
@@ -287,20 +282,26 @@ game = {
                 } else {
                     game.pic.go = true
                 } if(game.pic.go) {
-                    game.functions.getGifs('green', 'panther');
+                    game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence);
                 }
             });   
         },
 
         countdownTimer: function(){
-            var timeLeft = 30;
+            var timeLeft = 100;
             $('#time-box').text(timeLeft);
             setInterval(function(){
                 timeLeft--;
                 $('#time-box').text(timeLeft);
                 if(timeLeft === 0){
                    game.variables.userLine = $('#user-line').val().trim();
-                   game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+                   if(game.variables.player === 1){
+                       game.functions.giphyFirebase();
+                   } else if (game.variables.player === 2){
+                       setTimeout(game.functions.giphyFirebase, 1000);
+                   }
+                //    game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+                    // game.functions.giphyFirebase();
                    $('.battle').show();
                    $('html, body').animate({
                     scrollTop: $(".battle").offset().top
@@ -337,6 +338,10 @@ game = {
                             })   
                             $('#user-name').fadeOut();
 
+                            $('#user-name-waiting').hide();
+                            $('#user-name-waiting').text('Waiting for other player...');
+                            $('#user-name-waiting').fadeIn();
+
                         } else if (snapshot.val().step === 2){
                             game.variables.player = 2;                            
                             game.variables.username = input                            
@@ -348,7 +353,10 @@ game = {
                             })
                         }
                     });
-                };
+                } else {
+                    $('#user-name-waiting').text('Must enter a name!')
+                    $('#user-name-waiting').fadeIn();
+                }
                              
             });
             $(document).bind('keypress', function(event) {
@@ -385,6 +393,8 @@ game = {
                         database.ref().update({
                             step : 4
                         })   
+                        $('.user-chars').fadeOut();
+                        $('.characters').text('Waiting for other player...')
     
                     } else if (snapshot.val().step === 4){
                         game.variables.userChar = choice;
@@ -421,7 +431,6 @@ game = {
                 var hypeMan = $(this).clone();
                 hypeMan.addClass('hype-choice-api');
                 $('.hype-chosen').append(hypeMan);
-                $('.hype-char-img').fadeOut();
                 database.ref().once("value", function(snapshot){
                     if (snapshot.val().step === 5){
                         
@@ -436,6 +445,8 @@ game = {
                         })   
                     }
                 });
+                $('.hype-char').fadeOut();
+                $('#hype-info').text('Waiting for other player...')
                 database.ref().on("value", function(snapshot){
                     if (snapshot.val().step === 7){
                         game.functions.getRapSentence();
