@@ -174,31 +174,65 @@ game = {
         },
         rhymeHelp : function(word){
 
+            var numWords = 5;
             var rhymeQueryURL = "https://wordsapiv1.p.mashape.com/words/"+word+"/rhymes";
-        
+
             $.ajax({
                 url: rhymeQueryURL,
                 method: "GET",
                 headers: {
-                    "X-Mashape-Key": "ddjCflwLbmmshpr46LyV2dsijG5vp18NGwsjsnlNwVMkagEa6k",
-                    "X-Mashape-Host": "wordsapiv1.p.mashape.com"
+                "X-Mashape-Key": "ddjCflwLbmmshpr46LyV2dsijG5vp18NGwsjsnlNwVMkagEa6k",
+                "X-Mashape-Host": "wordsapiv1.p.mashape.com"
                 }
-        
-            }).then(function(response){
-                console.log(response);
-                console.log(response.rhymes.all[0])
-        
-                var rand = Math.floor(Math.random()*(response.rhymes.all.length));
-                if(response.rhymes.all[rand] === word){
-                    var rand2 = Math.floor(Math.random()*(response.rhymes.all.length));
-                    console.log(response.rhymes.all[rand2])
-                    console.log("had to recalculate")
-                }
+
+                }).then(function(response){
+                    if(response.rhymes.all === undefined || response.rhymes.all.length === 1){
+                        $(".rhyme-text").text("Try 'Mom's Spaghetti'");
+                    }
                 else{
-                    console.log(response.rhymes.all[rand]);
+                   var rhymeArray = [];
+                   var bigRhymeArray = response.rhymes.all;
+        
+                   if(bigRhymeArray.includes(word)){
+                      var index = bigRhymeArray.indexOf(word);
+                      bigRhymeArray.splice(index,1);
+                    }
+        
+                    var location = bigRhymeArray.indexOf(word);
+                    var length;
+                    var repeatIndex;
+            
+                    if(bigRhymeArray.length > numWords){
+                        length = numWords;
+                    }
+                    else{
+                        length = bigRhymeArray.length;
+                    }
+                    for(i = 0; i < bigRhymeArray.length; i++){
+                        if(rhymeArray.length === length){
+                            $(".rhyme-text").empty();
+                            console.log(rhymeArray)
+                            $(".rhyme-text").append("<li>"+rhymeArray[0]+"</li>");
+                            $(".rhyme-text").append("<li>"+rhymeArray[1]+"</li>");
+                            $(".rhyme-text").append("<li>"+rhymeArray[2]+"</li>");
+                            $(".rhyme-text").append("<li>"+rhymeArray[3]+"</li>");
+                            $(".rhyme-text").append("<li>"+rhymeArray[4]+"</li>");
+                            return rhymeArray
+                        }
+                        else{
+                            var rand = randNum(bigRhymeArray.length);
+                            if(!rhymeArray.includes(bigRhymeArray[rand])){
+                                rhymeArray.push(bigRhymeArray[rand]);
+                            }
+                        }
+                    }
                 }
-                
-            })
+                })
+
+            function randNum(length){
+                var randNum = Math.floor(Math.random()*(length));
+                return randNum
+            }
         },
         getGifs : function(word, sentence, givenSentence) {
 
@@ -291,33 +325,34 @@ game = {
                 var input = $('#user-name').val().trim();
                 if (input !== ""){
                     database.ref().once("value", function(snapshot){
-                        // if (snapshot.val().step === 1){
-                        //     game.variables.username1 = input
-                        //     database.ref('players/one').update({
-                        //         username : game.variables.username1
-                        //     })
-                        //     database.ref().update({
-                        //         step : 2
-                        //     })   
-                        // } else if (snapshot.val().step === 2){
-                        //     game.variables.username2 = input                            
-                        //     database.ref('players/two').update({
-                        //         username : game.variables.username2
-                        //     })
-                        //     database.ref().update({
-                        //         step : 3
-                        //     })
+                        if (snapshot.val().step === 1){
+                            game.variables.username1 = input
+                            database.ref('players/one').update({
+                                username : game.variables.username1
+                            })
+                            database.ref().update({
+                                step : 2
+                            })   
+                            $('#user-name').fadeOut();
+
+                        } else if (snapshot.val().step === 2){
+                            game.variables.username2 = input                            
+                            database.ref('players/two').update({
+                                username : game.variables.username2
+                            })
+                            database.ref().update({
+                                step : 3
+                            })
+                        }
+                        // } else if (snapshot.val().step === 3){
+                        //     $('.info-character').fadeIn();
+                        //     $('html, body').animate({
+                        //         scrollTop: $(".info-character").offset().top
+                        //     }, 400); 
+                        //     $('.header').fadeOut();  
+                        //     // game.functions.checkPlayers();
                         // } 
                     });
-                    if (game.variables.username1 !== '' && game.variables.username2 !== ''){
-                        // Scrolls page to next section
-                        $('.info-character').fadeIn();
-                        $('html, body').animate({
-                            scrollTop: $(".info-character").offset().top
-                        }, 400); 
-                        $('.header').fadeOut();  
-                        game.functions.checkPlayers();
-                    }
                 };
                              
             });
@@ -326,27 +361,55 @@ game = {
                      $('#user-name-submit').trigger('click');
                  }
             });
-            
+            database.ref().on("value", function(snapshot){
+                if (snapshot.val().step === 3){
+                    $('.info-character').fadeIn();
+                    $('html, body').animate({
+                        scrollTop: $(".info-character").offset().top
+                    }, 400); 
+                    $('.header').fadeOut();  
+                    // game.functions.checkPlayers();
+                } 
+            });
+         
+        
         },
         chooseChar : function(){
             $('.user-chars').on('click',function(){
                 var choice = $(this).attr('id');
+                console.log(choice)
                 database.ref().once("value", function(snapshot){
                     if (snapshot.val().step === 3){
                         game.variables.userChar1 = choice;
+                        database.ref('players/one').update({
+                            userChar : game.variables.userChar1
+                        })
+                        database.ref().update({
+                            step : 4
+                        })   
     
                     } else if (snapshot.val().step === 4){
                         game.variables.userChar2 = choice;
-    
+                        database.ref('players/two').update({
+                            userChar : game.variables.userChar2
+                        })
+                        database.ref().update({
+                            step : 5
+                        })   
                     }
                 });
-                // Scrolls page to next section
-                $('.hype-chars').fadeIn();
-                $('html, body').animate({
-                    scrollTop: $(".hype-chars").offset().top
-                }, 400);  
-                $('.info-character').fadeOut();
-                // game.functions.checkPlayers();                
+                database.ref().on("value", function(snapshot){
+                    if (snapshot.val().step === 5){
+                    // Scrolls page to next section
+                        $('.hype-chars').fadeIn();
+                        $('html, body').animate({
+                            scrollTop: $(".hype-chars").offset().top
+                        }, 400);  
+                        $('.info-character').fadeOut();
+                        // game.functions.checkPlayers();  
+                    }
+                });
+                              
                 
             });
         },
@@ -432,12 +495,28 @@ $(document).ready(function(){
     // game.functions.checkPlayers();                        
     game.onClicks.getUserName();
     game.onClicks.chooseChar();
-    game.onClicks.chooseHype();  
-    game.onClicks.hypeHelp();  
-    game.onClicks.getUserLine();
-    game.onClicks.getNewLine();
-    AOS.init();
+    // game.onClicks.chooseHype();  
+    // game.onClicks.hypeHelp();  
+    // game.onClicks.getUserLine();
+    // game.onClicks.getNewLine();
+    // AOS.init();
 
    
-    
+    // database.ref('players').set({
+    //         one : {
+    //             username : "",
+    //             userLine : "",
+    //             userChar : "",
+                
+    //         },
+    //         two : {
+    //             username : "",
+    //             userLine : "",
+    //             userChar : "",
+    //         }
+    // })
+
+    // database.ref('step').set({
+    //     step : 1
+    // })
 });
