@@ -165,7 +165,7 @@ game = {
         getGifs : function(word, sentence, givenSentence) {
 
             $.ajax({
-                url:"https://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
+                url:"http://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
                 method: "GET"
             }).then(function(response){
         
@@ -177,7 +177,7 @@ game = {
         
                 game.pic.arr.push(game.pic.imageObjectForArray);
 
-                game.pic.indexNum = game.pic.arr.length()-1;
+                //game.pic.indexNum = game.pic.arr.length()-1;
         
         
                 database.ref('arrayContainer').set({
@@ -228,6 +228,7 @@ game = {
                 if(timeLeft === 0){
                    game.variables.userLine = $('#user-line').val().trim();
                    game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+                   $('.battle').show();
                    $('html, body').animate({
                     scrollTop: $(".battle").offset().top
                 }, 400); 
