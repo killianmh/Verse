@@ -117,8 +117,7 @@ game = {
             var randomWordQueryURL = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&excludePartOfSpeech="+ exclude1 + "&excludePartOfSpeech=" + exclude2 + "&excludePartOfSpeech=" + exclude3 + "&minCorpusCount="+minCorpusCount+"&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=4&maxLength=12&limit=1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
         
             $.ajax({
-                url: randomWordQueryURL,
-                method: "GET"
+                url: 'https://corsbridge.herokuapp.com/' + encodeURIComponent(randomWordQueryURL)
             }).then(function(randomWordResponse){
                 word = randomWordResponse[0].word;
 
@@ -127,10 +126,9 @@ game = {
                 var randomSentenceQueryURL = "http://api.wordnik.com:80/v4/word.json/"+ word + "/examples?includeDuplicates=false&useCanonical=false&skip=0&limit="+maxSentences+"&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
         
                 $.ajax({
-                    url: randomSentenceQueryURL,
-                    method: "GET"
+                    url: 'https://corsbridge.herokuapp.com/' + encodeURIComponent(randomSentenceQueryURL)
                 }).then(function(randomSentenceResponse){
-        
+                    console.log(randomSentenceResponse);
                     for(i = 0; i<randomSentenceResponse.examples.length; i++){
                         var sentence = randomSentenceResponse.examples[i].text;
                         var splitSentence = sentence.split(word);
@@ -221,7 +219,7 @@ game = {
         
                 game.pic.arr.push(game.pic.imageObjectForArray);
 
-                game.pic.indexNum = game.pic.arr.length()-1;
+                //game.pic.indexNum = game.pic.arr.length()-1;
         
         
                 database.ref('arrayContainer').set({
@@ -272,6 +270,7 @@ game = {
                 if(timeLeft === 0){
                    game.variables.userLine = $('#user-line').val().trim();
                    game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+                   $('.battle').show();
                    $('html, body').animate({
                     scrollTop: $(".battle").offset().top
                 }, 400); 
