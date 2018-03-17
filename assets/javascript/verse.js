@@ -82,7 +82,7 @@ game = {
                 var randomSentenceQueryURL = "http://api.wordnik.com:80/v4/word.json/"+ word + "/examples?includeDuplicates=false&useCanonical=false&skip=0&limit="+maxSentences+"&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
         
                 $.ajax({
-                    url: 'https://corsbridge.herokuapp.com/' + encodeURIComponent(randomWordQueryURL)
+                    url: 'https://corsbridge.herokuapp.com/' + encodeURIComponent(randomSentenceQueryURL)
                 }).then(function(randomSentenceResponse){
                     console.log(randomSentenceResponse);
                     for(i = 0; i<randomSentenceResponse.examples.length; i++){
