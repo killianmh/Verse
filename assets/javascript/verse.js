@@ -12,18 +12,19 @@ var database = firebase.database();
   
 game = {
     variables : {
-        username1 : "",
-        userChar1 : "",
-        userLine1 : "",
-        hypeChoice1 : "",
-        word1 : "",
-        sentence1 : "",
-        username2 : "",
-        userChar2 : "",
-        userLine2 : "",
-        hypeChoice2 : "",
-        word2 : "",
-        sentence2 : ""
+        player : "",
+        username : "",
+        userChar : "",
+        userLine : "",
+        hypeChoice : "",
+        word : "",
+        sentence : "",
+        // username : "",
+        // userChar : "",
+        // userLine : "",
+        // hypeChoice2 : "",
+        // word2 : "",
+        // sentence2 : ""
     },
     pic : {
         arr: [],
@@ -36,13 +37,13 @@ game = {
         generateGame : function(){
             database.ref().set({
                 players : {
-                    one : {
+                    1 : {
                         username : "",
                         userLine : "",
                         userChar : "",
                         
                     },
-                    two : {
+                    2 : {
                         username : "",
                         userLine : "",
                         userChar : "",
@@ -60,7 +61,7 @@ game = {
             //     //     console.log('test')
             //     // } else if (snapshot.val().step === 2) {
             //     //     database.ref('players/two').update({
-            //     //         username : game.variables.username2
+            //     //         username : game.variables.username
             //     //     })
             //     //     database.ref().update({
             //     //         step : 3
@@ -68,14 +69,14 @@ game = {
             //     // }
             //     // if (snapshot.val().step === 3){
             //     //     database.ref('players/one').update({
-            //     //         userChar : game.variables.userChar1
+            //     //         userChar : game.variables.userChar
             //     //     })
             //     //     database.ref().update({
             //     //         step : 4
             //     //     })
             //     // } else if (snapshot.val().step === 4) {
             //     //     database.ref('players/two').update({
-            //     //         userChar : game.variables.userChar2
+            //     //         userChar : game.variables.userChar
             //     //     })
             //     //     database.ref().update({
             //     //         step : 5
@@ -83,14 +84,14 @@ game = {
             //     // }
             //     // if (snapshot.val().step === 5){
             //     //     database.ref('players/one').update({
-            //     //         userLine : game.variables.userLine1
+            //     //         userLine : game.variables.userLine
             //     //     })
             //     //     database.ref().update({
             //     //         step : 6
             //     //     })
             //     // } else if (snapshot.val().step === 6) {
             //     //     database.ref('players/two').update({
-            //     //         userLine : game.variables.userLine2
+            //     //         userLine : game.variables.userLine
             //     //     })
             //     //     database.ref().update({
             //     //         step : 7
@@ -326,9 +327,10 @@ game = {
                 if (input !== ""){
                     database.ref().once("value", function(snapshot){
                         if (snapshot.val().step === 1){
-                            game.variables.username1 = input
-                            database.ref('players/one').update({
-                                username : game.variables.username1
+                            game.variables.player = 1;
+                            game.variables.username = input
+                            database.ref('players/'+game.variables.player).update({
+                                username : game.variables.username
                             })
                             database.ref().update({
                                 step : 2
@@ -336,22 +338,15 @@ game = {
                             $('#user-name').fadeOut();
 
                         } else if (snapshot.val().step === 2){
-                            game.variables.username2 = input                            
-                            database.ref('players/two').update({
-                                username : game.variables.username2
+                            game.variables.player = 2;                            
+                            game.variables.username = input                            
+                            database.ref('players/'+game.variables.player).update({
+                                username : game.variables.username
                             })
                             database.ref().update({
                                 step : 3
                             })
                         }
-                        // } else if (snapshot.val().step === 3){
-                        //     $('.info-character').fadeIn();
-                        //     $('html, body').animate({
-                        //         scrollTop: $(".info-character").offset().top
-                        //     }, 400); 
-                        //     $('.header').fadeOut();  
-                        //     // game.functions.checkPlayers();
-                        // } 
                     });
                 };
                              
@@ -369,7 +364,10 @@ game = {
                     }, 400); 
                     $('.header').fadeOut();  
                     // game.functions.checkPlayers();
+                    game.onClicks.chooseChar();
+                    
                 } 
+                
             });
          
         
@@ -380,18 +378,18 @@ game = {
                 console.log(choice)
                 database.ref().once("value", function(snapshot){
                     if (snapshot.val().step === 3){
-                        game.variables.userChar1 = choice;
-                        database.ref('players/one').update({
-                            userChar : game.variables.userChar1
+                        game.variables.userChar = choice;
+                        database.ref('players/'+game.variables.player).update({
+                            userChar : game.variables.userChar
                         })
                         database.ref().update({
                             step : 4
                         })   
     
                     } else if (snapshot.val().step === 4){
-                        game.variables.userChar2 = choice;
-                        database.ref('players/two').update({
-                            userChar : game.variables.userChar2
+                        game.variables.userChar = choice;
+                        database.ref('players/'+game.variables.player).update({
+                            userChar : game.variables.userChar
                         })
                         database.ref().update({
                             step : 5
@@ -406,7 +404,10 @@ game = {
                             scrollTop: $(".hype-chars").offset().top
                         }, 400);  
                         $('.info-character').fadeOut();
-                        // game.functions.checkPlayers();  
+                        // game.functions.checkPlayers(); 
+                        // database.ref().off();
+                         
+                        
                     }
                 });
                               
@@ -420,15 +421,42 @@ game = {
                 var hypeMan = $(this).clone();
                 hypeMan.addClass('hype-choice-api');
                 $('.hype-chosen').append(hypeMan);
-                game.functions.getRapSentence();
-                // $('#random-line').text(game.variables.sentence);
-                game.functions.countdownTimer();
-                $('.build-rap').fadeIn();
-                
-                $('html, body').animate({
-                    scrollTop: $(".build-rap").offset().top
-                }, 400); 
-                $('.hype-chars').fadeOut();
+                $('.hype-char-img').fadeOut();
+                database.ref().once("value", function(snapshot){
+                    if (snapshot.val().step === 5){
+                        
+                        database.ref().update({
+                            step : 6
+                        })   
+    
+                    } else if (snapshot.val().step === 6){
+                        
+                        database.ref().update({
+                            step : 7
+                        })   
+                    }
+                });
+                database.ref().on("value", function(snapshot){
+                    if (snapshot.val().step === 7){
+                        game.functions.getRapSentence();
+                        // $('#random-line').text(game.variables.sentence);
+                        game.functions.countdownTimer();
+                        $('.build-rap').fadeIn();
+                        
+                        $('html, body').animate({
+                            scrollTop: $(".build-rap").offset().top
+                        }, 400); 
+                        $('.hype-chars').fadeOut();
+                        game.onClicks.hypeHelp(); 
+                        game.onClicks.getNewLine();
+                        game.onClicks.getUserLine();
+                        database.ref().update({
+                            step : 0
+                        }) 
+                         
+                        
+                    }
+                });
                  
             });
         },
@@ -475,8 +503,6 @@ game = {
             $('.hype-chosen').on('click', function(){
                 game.functions.rhymeHelp(game.variables.word);
                 $('.rhyme-text').text('')
-                
-                
 
             })
         },
@@ -494,29 +520,7 @@ $(document).ready(function(){
     game.functions.generateGame();
     // game.functions.checkPlayers();                        
     game.onClicks.getUserName();
-    game.onClicks.chooseChar();
-    // game.onClicks.chooseHype();  
-    // game.onClicks.hypeHelp();  
-    // game.onClicks.getUserLine();
-    // game.onClicks.getNewLine();
-    // AOS.init();
+    game.onClicks.chooseHype();  
+    AOS.init();
 
-   
-    // database.ref('players').set({
-    //         one : {
-    //             username : "",
-    //             userLine : "",
-    //             userChar : "",
-                
-    //         },
-    //         two : {
-    //             username : "",
-    //             userLine : "",
-    //             userChar : "",
-    //         }
-    // })
-
-    // database.ref('step').set({
-    //     step : 1
-    // })
 });
