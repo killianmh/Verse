@@ -477,8 +477,7 @@ $(document).ready(function(){
     AOS.init();
 
    
-    database.ref().set({
-        players : {
+    database.ref('players').set({
             one : {
                 username : "",
                 userLine : "",
@@ -490,7 +489,8 @@ $(document).ready(function(){
                 userLine : "",
                 userChar : "",
             }
-        },
-        step : 1,
+        })
     });
-});
+    database.ref('step').set({
+        step : 1
+    })
