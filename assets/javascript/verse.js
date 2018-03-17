@@ -12,18 +12,19 @@ var database = firebase.database();
   
 game = {
     variables : {
-        username1 : "",
-        userChar1 : "",
-        userLine1 : "",
-        hypeChoice1 : "",
-        word1 : "",
-        sentence1 : "",
-        username2 : "",
-        userChar2 : "",
-        userLine2 : "",
-        hypeChoice2 : "",
-        word2 : "",
-        sentence2 : ""
+        player : "",
+        username : "",
+        userChar : "",
+        userLine : "",
+        hypeChoice : "",
+        word : "",
+        sentence : "",
+        // username : "",
+        // userChar : "",
+        // userLine : "",
+        // hypeChoice2 : "",
+        // word2 : "",
+        // sentence2 : ""
     },
     pic : {
         arr: [],
@@ -34,28 +35,24 @@ game = {
 
     functions : {
         generateGame : function(){
-
-            // database.ref().once("value", function(snapshot){
-            //     if (snapshot.val().players.one.username)
-            // });
-            // database.ref().set({
-            //     players : {
-            //         one : {
-            //             username : "",
-            //             userLine : "",
-            //             userChar : "",
+            database.ref("players").set({
+                    1 : {
+                        username : "",
+                        userLine : "",
+                        userChar : "",
                         
-            //         },
-            //         two : {
-            //             username : "",
-            //             userLine : "",
-            //             userChar : "",
-            //         }
-            //     },
-            //     step : 1,
-            // });
+                    },
+                    2 : {
+                        username : "",
+                        userLine : "",
+                        userChar : "",
+                    }
+                }),
+            database.ref().update({
+                step : 1
+            })
         },
-        checkPlayers : function(){
+                checkPlayers : function(){
             
             // database.ref().on("value", function(snapshot){
             //     // console.log(snapshot.val().players.one.username);
@@ -64,7 +61,7 @@ game = {
             //     //     console.log('test')
             //     // } else if (snapshot.val().step === 2) {
             //     //     database.ref('players/two').update({
-            //     //         username : game.variables.username2
+            //     //         username : game.variables.username
             //     //     })
             //     //     database.ref().update({
             //     //         step : 3
@@ -72,14 +69,14 @@ game = {
             //     // }
             //     // if (snapshot.val().step === 3){
             //     //     database.ref('players/one').update({
-            //     //         userChar : game.variables.userChar1
+            //     //         userChar : game.variables.userChar
             //     //     })
             //     //     database.ref().update({
             //     //         step : 4
             //     //     })
             //     // } else if (snapshot.val().step === 4) {
             //     //     database.ref('players/two').update({
-            //     //         userChar : game.variables.userChar2
+            //     //         userChar : game.variables.userChar
             //     //     })
             //     //     database.ref().update({
             //     //         step : 5
@@ -87,14 +84,14 @@ game = {
             //     // }
             //     // if (snapshot.val().step === 5){
             //     //     database.ref('players/one').update({
-            //     //         userLine : game.variables.userLine1
+            //     //         userLine : game.variables.userLine
             //     //     })
             //     //     database.ref().update({
             //     //         step : 6
             //     //     })
             //     // } else if (snapshot.val().step === 6) {
             //     //     database.ref('players/two').update({
-            //     //         userLine : game.variables.userLine2
+            //     //         userLine : game.variables.userLine
             //     //     })
             //     //     database.ref().update({
             //     //         step : 7
@@ -239,7 +236,9 @@ game = {
             }
         },
         getGifs : function(word, sentence, givenSentence) {
-
+            database.ref().push({
+                string: "ebfiwjnfijsnv"
+            })
             $.ajax({
                 url:"https://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
                 method: "GET"
@@ -251,7 +250,9 @@ game = {
                     userSentence: sentence
                 };
         
+            
                 game.pic.arr.push(game.pic.imageObjectForArray);
+                console.log(game.pic.arr);
 
                 //game.pic.indexNum = game.pic.arr.length()-1;
         
@@ -290,7 +291,7 @@ game = {
                 } else {
                     game.pic.go = true
                 } if(game.pic.go) {
-                    game.functions.getGifs('green', 'panther');
+                    game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence);
                 }
             });   
         },
@@ -302,8 +303,12 @@ game = {
                 timeLeft--;
                 $('#time-box').text(timeLeft);
                 if(timeLeft === 0){
+                    
                    game.variables.userLine = $('#user-line').val().trim();
-                   game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
+
+                   game.functions.giphyFirebase();
+                  // game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence);
+                   
                    $('.battle').show();
                    $('html, body').animate({
                     scrollTop: $(".battle").offset().top
@@ -328,34 +333,29 @@ game = {
             $('#user-name-submit').on('click', function(){
                 var input = $('#user-name').val().trim();
                 if (input !== ""){
-                    database.ref().on("value", function(snapshot){
+                    database.ref().once("value", function(snapshot){
                         if (snapshot.val().step === 1){
-                            game.variables.username1 = input
-                            database.ref('players/one').update({
-                                username : game.variables.username1
+                            game.variables.player = 1;
+                            game.variables.username = input
+                            database.ref('players/'+game.variables.player).update({
+                                username : game.variables.username
                             })
                             database.ref().update({
                                 step : 2
                             })   
+                            $('#user-name').fadeOut();
+
                         } else if (snapshot.val().step === 2){
-                            game.variables.username2 = input                            
-                            database.ref('players/two').update({
-                                username : game.variables.username2
+                            game.variables.player = 2;                            
+                            game.variables.username = input                            
+                            database.ref('players/'+game.variables.player).update({
+                                username : game.variables.username
                             })
                             database.ref().update({
                                 step : 3
                             })
-                        } 
+                        }
                     });
-                    if (game.variables.username1 !== '' && game.variables.username2 !== ''){
-                        // Scrolls page to next section
-                        $('.info-character').fadeIn();
-                        $('html, body').animate({
-                            scrollTop: $(".info-character").offset().top
-                        }, 400); 
-                        $('.header').fadeOut();  
-                        game.functions.checkPlayers();
-                    }
                 };
                              
             });
@@ -364,27 +364,61 @@ game = {
                      $('#user-name-submit').trigger('click');
                  }
             });
-            
+            database.ref().on("value", function(snapshot){
+                if (snapshot.val().step === 3){
+                    $('.info-character').fadeIn();
+                    $('html, body').animate({
+                        scrollTop: $(".info-character").offset().top
+                    }, 400); 
+                    $('.header').fadeOut();  
+                    // game.functions.checkPlayers();
+                    game.onClicks.chooseChar();
+                    
+                } 
+                
+            });
+         
+        
         },
         chooseChar : function(){
             $('.user-chars').on('click',function(){
                 var choice = $(this).attr('id');
+                console.log(choice)
                 database.ref().once("value", function(snapshot){
                     if (snapshot.val().step === 3){
-                        game.variables.userChar1 = choice;
+                        game.variables.userChar = choice;
+                        database.ref('players/'+game.variables.player).update({
+                            userChar : game.variables.userChar
+                        })
+                        database.ref().update({
+                            step : 4
+                        })   
     
                     } else if (snapshot.val().step === 4){
-                        game.variables.userChar2 = choice;
-    
+                        game.variables.userChar = choice;
+                        database.ref('players/'+game.variables.player).update({
+                            userChar : game.variables.userChar
+                        })
+                        database.ref().update({
+                            step : 5
+                        })   
                     }
                 });
-                // Scrolls page to next section
-                $('.hype-chars').fadeIn();
-                $('html, body').animate({
-                    scrollTop: $(".hype-chars").offset().top
-                }, 400);  
-                $('.info-character').fadeOut();
-                // game.functions.checkPlayers();                
+                database.ref().on("value", function(snapshot){
+                    if (snapshot.val().step === 5){
+                    // Scrolls page to next section
+                        $('.hype-chars').fadeIn();
+                        $('html, body').animate({
+                            scrollTop: $(".hype-chars").offset().top
+                        }, 400);  
+                        $('.info-character').fadeOut();
+                        // game.functions.checkPlayers(); 
+                        // database.ref().off();
+                         
+                        
+                    }
+                });
+                              
                 
             });
         },
@@ -395,15 +429,42 @@ game = {
                 var hypeMan = $(this).clone();
                 hypeMan.addClass('hype-choice-api');
                 $('.hype-chosen').append(hypeMan);
-                game.functions.getRapSentence();
-                // $('#random-line').text(game.variables.sentence);
-                game.functions.countdownTimer();
-                $('.build-rap').fadeIn();
-                
-                $('html, body').animate({
-                    scrollTop: $(".build-rap").offset().top
-                }, 400); 
-                $('.hype-chars').fadeOut();
+                $('.hype-char-img').fadeOut();
+                database.ref().once("value", function(snapshot){
+                    if (snapshot.val().step === 5){
+                        
+                        database.ref().update({
+                            step : 6
+                        })   
+    
+                    } else if (snapshot.val().step === 6){
+                        
+                        database.ref().update({
+                            step : 7
+                        })   
+                    }
+                });
+                database.ref().on("value", function(snapshot){
+                    if (snapshot.val().step === 7){
+                        game.functions.getRapSentence();
+                        // $('#random-line').text(game.variables.sentence);
+                        game.functions.countdownTimer();
+                        $('.build-rap').fadeIn();
+                        
+                        $('html, body').animate({
+                            scrollTop: $(".build-rap").offset().top
+                        }, 400); 
+                        $('.hype-chars').fadeOut();
+                        game.onClicks.hypeHelp(); 
+                        game.onClicks.getNewLine();
+                        game.onClicks.getUserLine();
+                        database.ref().update({
+                            step : 0
+                        }) 
+                         
+                        
+                    }
+                });
                  
             });
         },
@@ -441,7 +502,7 @@ game = {
                 $('.rhyme-box').fadeIn();  
                 if(game.variables.hypeChoice == "eminem"){
                     $('.rhyme-text').text("Mom's Spaghetti?");
-                } else{
+t                 } else{
                     $('.rhyme-text').text('Need rhymes?')
                 }
             }, function(){
@@ -450,8 +511,6 @@ game = {
             $('.hype-chosen').on('click', function(){
                 game.functions.rhymeHelp(game.variables.word);
                 $('.rhyme-text').text('')
-                
-                
 
             })
         },
@@ -467,30 +526,9 @@ game = {
 
 $(document).ready(function(){
     game.functions.generateGame();
-    game.functions.checkPlayers();                        
+    // game.functions.checkPlayers();                        
     game.onClicks.getUserName();
-    game.onClicks.chooseChar();
     game.onClicks.chooseHype();  
-    game.onClicks.hypeHelp();  
-    game.onClicks.getUserLine();
-    game.onClicks.getNewLine();
     AOS.init();
 
-   
-    // database.ref('players').set({
-    //         one : {
-    //             username : "",
-    //             userLine : "",
-    //             userChar : "",
-                
-    //         },
-    //         two : {
-    //             username : "",
-    //             userLine : "",
-    //             userChar : "",
-    //         }
-    //     });
-    // database.ref('step').set({
-    //     step : 1
-    // });
 });
