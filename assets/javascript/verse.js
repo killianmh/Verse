@@ -12,11 +12,18 @@ var database = firebase.database();
   
 game = {
     variables : {
-        username : "",
-        userLine : "",
-        hypeChoice : "",
-        word : "",
-        sentence : ""
+        username1 : "",
+        userChar1 : "",
+        userLine1 : "",
+        hypeChoice1 : "",
+        word1 : "",
+        sentence1 : "",
+        username2 : "",
+        userChar2 : "",
+        userLine2 : "",
+        hypeChoice2 : "",
+        word2 : "",
+        sentence2 : ""
     },
     pic : {
         arr: [],
@@ -27,36 +34,73 @@ game = {
 
     functions : {
         generateGame : function(){
-            database.ref().set({
-                players : {
-                    one : {
-                        username : "",
-                        userLine : "",
-                        userChar : "",
+
+            // database.ref().once("value", function(snapshot){
+            //     if (snapshot.val().players.one.username)
+            // });
+            // database.ref().set({
+            //     players : {
+            //         one : {
+            //             username : "",
+            //             userLine : "",
+            //             userChar : "",
                         
-                    },
-                    two : {
-                        username : "",
-                        userLine : "",
-                        userChar : "",
-                    }
-                }
-            });
+            //         },
+            //         two : {
+            //             username : "",
+            //             userLine : "",
+            //             userChar : "",
+            //         }
+            //     },
+            //     step : 1,
+            // });
         },
         checkPlayers : function(){
             
-            database.ref().once("value", function(snapshot){
-                console.log(snapshot.val().players.one.username);
-                if (snapshot.val().players.one.username === ""){
-                    database.ref('players/one').update({
-                        username : game.variables.username
-                    })
-                } else if (snapshot.val().players.two.username === "") {
-                    database.ref('players/two').update({
-                        username : game.variables.username
-                    })
-                }
-            });
+            // database.ref().on("value", function(snapshot){
+            //     // console.log(snapshot.val().players.one.username);
+            //     // if (snapshot.val().step === 1){
+                    
+            //     //     console.log('test')
+            //     // } else if (snapshot.val().step === 2) {
+            //     //     database.ref('players/two').update({
+            //     //         username : game.variables.username2
+            //     //     })
+            //     //     database.ref().update({
+            //     //         step : 3
+            //     //     })
+            //     // }
+            //     // if (snapshot.val().step === 3){
+            //     //     database.ref('players/one').update({
+            //     //         userChar : game.variables.userChar1
+            //     //     })
+            //     //     database.ref().update({
+            //     //         step : 4
+            //     //     })
+            //     // } else if (snapshot.val().step === 4) {
+            //     //     database.ref('players/two').update({
+            //     //         userChar : game.variables.userChar2
+            //     //     })
+            //     //     database.ref().update({
+            //     //         step : 5
+            //     //     })
+            //     // }
+            //     // if (snapshot.val().step === 5){
+            //     //     database.ref('players/one').update({
+            //     //         userLine : game.variables.userLine1
+            //     //     })
+            //     //     database.ref().update({
+            //     //         step : 6
+            //     //     })
+            //     // } else if (snapshot.val().step === 6) {
+            //     //     database.ref('players/two').update({
+            //     //         userLine : game.variables.userLine2
+            //     //     })
+            //     //     database.ref().update({
+            //     //         step : 7
+            //     //     })
+            //     // }
+            // });
         },
         getRapSentence : function() {
             var word;
@@ -243,20 +287,42 @@ game = {
             $('.hype-chars').hide()
             $('.build-rap').hide()
             $('.battle').hide()
+
+
             // This function gets the name that the user inputs on the title page and saves it as the username to be used throughout the game. 
+            
+            
             $('#user-name-submit').on('click', function(){
                 var input = $('#user-name').val().trim();
                 if (input !== ""){
-                    game.variables.username = input;
-                    console.log(game.variables.username)
-
-                    // Scrolls page to next section
-                    $('.info-character').fadeIn();
-                    $('html, body').animate({
-                        scrollTop: $(".info-character").offset().top
-                    }, 400); 
-                    $('.header').fadeOut();  
-                    game.functions.checkPlayers();
+                    database.ref().on("value", function(snapshot){
+                        if (snapshot.val().step === 1){
+                            game.variables.username1 = input
+                            database.ref('players/one').update({
+                                username : game.variables.username1
+                            })
+                            database.ref().update({
+                                step : 2
+                            })   
+                        } else if (snapshot.val().step === 2){
+                            game.variables.username2 = input                            
+                            database.ref('players/two').update({
+                                username : game.variables.username2
+                            })
+                            database.ref().update({
+                                step : 3
+                            })
+                        } 
+                    });
+                    if (game.variables.username1 !== '' && game.variables.username2 !== ''){
+                        // Scrolls page to next section
+                        $('.info-character').fadeIn();
+                        $('html, body').animate({
+                            scrollTop: $(".info-character").offset().top
+                        }, 400); 
+                        $('.header').fadeOut();  
+                        game.functions.checkPlayers();
+                    }
                 };
                              
             });
@@ -269,15 +335,23 @@ game = {
         },
         chooseChar : function(){
             $('.user-chars').on('click',function(){
-                var choice = $(this);
-                console.log(choice.attr('id'));
+                var choice = $(this).attr('id');
+                database.ref().once("value", function(snapshot){
+                    if (snapshot.val().step === 3){
+                        game.variables.userChar1 = choice;
+    
+                    } else if (snapshot.val().step === 4){
+                        game.variables.userChar2 = choice;
+    
+                    }
+                });
                 // Scrolls page to next section
                 $('.hype-chars').fadeIn();
                 $('html, body').animate({
                     scrollTop: $(".hype-chars").offset().top
                 }, 400);  
                 $('.info-character').fadeOut();
-                
+                // game.functions.checkPlayers();                
                 
             });
         },
@@ -312,8 +386,16 @@ game = {
             $('#user-line-submit').on('click',function(){
                 var input = $('#user-line').val().trim();
                 if (input !== ""){
-                    game.variables.userLine = input;
-                    console.log(game.variables.userLine)
+
+                    database.ref().once("value", function(snapshot){
+                        if (snapshot.val().step === 5){
+                            game.variables.userLine = input;
+        
+                        } else if (snapshot.val().step === 6){
+                            game.variables.userLine = input;
+        
+                        }
+                    });
                 } else {
                     alert("You failed bro.")
                 }
@@ -352,6 +434,7 @@ game = {
 
 $(document).ready(function(){
     game.functions.generateGame();
+    game.functions.checkPlayers();                        
     game.onClicks.getUserName();
     game.onClicks.chooseChar();
     game.onClicks.chooseHype();  
@@ -361,5 +444,20 @@ $(document).ready(function(){
     AOS.init();
 
    
-
+    database.ref().set({
+        players : {
+            one : {
+                username : "",
+                userLine : "",
+                userChar : "",
+                
+            },
+            two : {
+                username : "",
+                userLine : "",
+                userChar : "",
+            }
+        },
+        step : 1,
+    });
 });
