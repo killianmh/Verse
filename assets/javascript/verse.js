@@ -73,8 +73,7 @@ game = {
             var randomWordQueryURL = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&excludePartOfSpeech="+ exclude1 + "&excludePartOfSpeech=" + exclude2 + "&excludePartOfSpeech=" + exclude3 + "&minCorpusCount="+minCorpusCount+"&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=4&maxLength=12&limit=1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
         
             $.ajax({
-                url: randomWordQueryURL,
-                method: "GET"
+                url: 'https://corsbridge.herokuapp.com/' + encodeURIComponent(randomWordQueryURL)
             }).then(function(randomWordResponse){
                 word = randomWordResponse[0].word;
 
@@ -83,8 +82,7 @@ game = {
                 var randomSentenceQueryURL = "http://api.wordnik.com:80/v4/word.json/"+ word + "/examples?includeDuplicates=false&useCanonical=false&skip=0&limit="+maxSentences+"&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
         
                 $.ajax({
-                    url: randomSentenceQueryURL,
-                    method: "GET"
+                    url: 'https://corsbridge.herokuapp.com/' + encodeURIComponent(randomWordQueryURL)
                 }).then(function(randomSentenceResponse){
         
                     for(i = 0; i<randomSentenceResponse.examples.length; i++){
