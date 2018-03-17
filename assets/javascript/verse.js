@@ -202,7 +202,7 @@ game = {
                     userImage : game.pic.imageObjectForArray
                 })
                 
-                database.ref('player/2').once("value", function(snapshot){
+                database.ref('player/2').on("value", function(snapshot){
                 
                     database.ref('player').once("value", function(snapshot){
                     
@@ -277,7 +277,7 @@ game = {
                     } else if (game.variables.player === 2){
                         setTimeout(game.functions.giphyFirebase, 4000);
                     }
-                    setTimeout(function(){
+                    // setTimeout(function(){
                             database.ref("players").set({
                                 1 : {
                                     username : "",
@@ -293,7 +293,7 @@ game = {
                             database.ref().update({
                                 step : 1
                             })
-                    }, 1000);
+                    // }, 1000);
                     
                     $('.battle').show();
                     $('html, body').animate({
