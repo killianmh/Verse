@@ -84,7 +84,7 @@ game = {
                 $.ajax({
                     url: 'https://corsbridge.herokuapp.com/' + encodeURIComponent(randomWordQueryURL)
                 }).then(function(randomSentenceResponse){
-        
+                    console.log(randomSentenceResponse);
                     for(i = 0; i<randomSentenceResponse.examples.length; i++){
                         var sentence = randomSentenceResponse.examples[i].text;
                         var splitSentence = sentence.split(word);
@@ -163,7 +163,7 @@ game = {
         getGifs : function(word, sentence, givenSentence) {
 
             $.ajax({
-                url:"http://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
+                url:"https://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
                 method: "GET"
             }).then(function(response){
         
