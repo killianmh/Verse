@@ -29,36 +29,9 @@ game = {
 
     functions : {
         generateGame : function(){
-<<<<<<< HEAD
             database.ref().once("value", function(snapshot){
                 if (snapshot.child('players/2/username').val() === "") { 
                     console.log('test')
-=======
-            database.ref("players").set({
-                    1 : {
-                        username : "",
-                        userLine : "",
-                        userChar : "",
-                        userImage: {}
-                        
-                    },
-                    2 : {
-                        username : "",
-                        userLine : "",
-                        userChar : "",
-                        userImage : {}
-                    }
-                }),
-            database.ref().update({
-                step : 1
-            })
-        },
-                checkPlayers : function(){
-            
-            // database.ref().on("value", function(snapshot){
-            //     // console.log(snapshot.val().players.one.username);
-            //     // if (snapshot.val().step === 1){
->>>>>>> c2826b814620d788626ddfacaf491fdc6a27d6a4
                     
                 } else {
                     console.log(snapshot)
@@ -222,11 +195,7 @@ game = {
                 game.pic.arr.push(game.pic.imageObjectForArray);
                 console.log(game.pic.arr);
 
-<<<<<<< HEAD
                 // game.pic.indexNum = game.pic.arr.length()-1;
-=======
-                game.pic.indexNum = (game.pic.arr.length()) - 1;
->>>>>>> c2826b814620d788626ddfacaf491fdc6a27d6a4
         
         
                 database.ref('arrayContainer').update({
@@ -279,7 +248,6 @@ game = {
                 timeLeft--;
                 $('#time-box').text(timeLeft);
                 if(timeLeft === 0){
-<<<<<<< HEAD
                     game.variables.userLine = $('#user-line').val().trim();
                     if(game.variables.player === 1){
                         game.functions.giphyFirebase();
@@ -309,20 +277,6 @@ game = {
                     $('.battle').show();
                     $('html, body').animate({
                         scrollTop: $(".battle").offset().top
-=======
-                    
-                   game.variables.userLine = $('#user-line').val().trim();
-                   if(game.variables.player === 1){
-                       game.functions.giphyFirebase();
-                   } else if (game.variables.player === 2){
-                       setTimeout(game.functions.giphyFirebase, 1000);
-                   }
-                //    game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
-                    // game.functions.giphyFirebase();
-                   $('.battle').show();
-                   $('html, body').animate({
-                    scrollTop: $(".battle").offset().top
->>>>>>> c2826b814620d788626ddfacaf491fdc6a27d6a4
                 }, 400); 
                 $('.build-rap').fadeOut();  
                 }
