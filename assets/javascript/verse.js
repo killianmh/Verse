@@ -220,7 +220,7 @@ game = {
                 
                 // setTimeout(function(){
                     // console.log(snapshot.child('player/1').val().userImage.randomSentence)
-                    var memeContainer1 = $('<div>').addClass('meme-container1');
+                    var memeContainer1 = $('<div>').addClass('meme-container1 btn');
                     var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
                     var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
                     var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
@@ -233,7 +233,7 @@ game = {
 
                 
                 
-                    var memeContainer2 = $('<div>').addClass('meme-container2');
+                    var memeContainer2 = $('<div>').addClass('meme-container2 btn');
                     var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
                     var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
                     var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
@@ -525,8 +525,10 @@ t                 } else{
         },
 
         goToQueryPage: function(){
+            var indexNumString = (game.pic.indexNum).toString();
             $('.meme-container'+ game.pic.indexNum).on('click', function(){
-            document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + game.pic.indexNum;
+            alert('clicked');
+            document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + indexNumString;
         });
         }
     }
