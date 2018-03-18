@@ -202,7 +202,7 @@ game = {
                 
                 // game.functions.create();
                 if (game.variables.player === 1){
-                    setTimeout(game.functions.create,5000)
+                    setTimeout(game.functions.create,6000)
                 } else if (game.variables.player === 2){
                     game.functions.create()
                 }
@@ -530,7 +530,6 @@ t                 } else{
             var indexNumString = (game.pic.indexNum).toString();
             var playerString = (game.variables.player).toString();
             $('.meme-container'+ playerString).on('click', function(){
-            alert('clicked');
             document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + indexNumString;
         });
         }
