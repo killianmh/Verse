@@ -223,7 +223,7 @@ input{
     padding: 10px 5px;
     width: 70%;
     height: 130px;
-    overflow: scroll;
+    overflow: hidden;
     list-style-type: none;
     position: relative;
     top: 2%;

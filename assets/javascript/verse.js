@@ -221,7 +221,7 @@ game = {
                 
                 // setTimeout(function(){
                     // console.log(snapshot.child('player/1').val().userImage.randomSentence)
-                    var memeContainer1 = $('<div>').addClass('meme-container1 btn');
+                    var memeContainer1 = $('<div>').addClass('meme-container1 btn col-md-4 col-md-offset-2');
                     var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
                     var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
                     var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
@@ -234,7 +234,7 @@ game = {
 
                 
                 
-                    var memeContainer2 = $('<div>').addClass('meme-container2 btn');
+                    var memeContainer2 = $('<div>').addClass('meme-container2 btn col-md-4');
                     var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
                     var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
                     var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
@@ -308,9 +308,9 @@ game = {
                     $('html, body').animate({
                         scrollTop: $(".battle").offset().top
                 }, 400); 
-                $('.build-rap').fadeOut();  
                 }
             }, 1000)
+            $('.build-rap').fadeOut(); 
             
             
         },
@@ -530,7 +530,6 @@ t                 } else{
             var indexNumString = (game.pic.indexNum).toString();
             var playerString = (game.variables.player).toString();
             $('.meme-container'+ playerString).on('click', function(){
-            alert('clicked');
             document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + indexNumString;
         });
         }
