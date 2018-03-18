@@ -207,7 +207,7 @@ game = {
                 }
                 
                 
-                game.onClicks.goToQueryPage();
+                
                 });
         
         },
@@ -243,6 +243,7 @@ game = {
 
 
                     $('.battle').append(memeContainer1).append(memeContainer2);
+                    game.onClicks.goToQueryPage();
                 })
             
             });
