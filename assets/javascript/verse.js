@@ -174,9 +174,6 @@ game = {
             }
         },
         getGifs : function(word, sentence, givenSentence) {
-            database.ref().push({
-                string: "ebfiwjnfijsnv"
-            })
             $.ajax({
                 url:"https://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
                 method: "GET"
@@ -192,7 +189,8 @@ game = {
                 game.pic.arr.push(game.pic.imageObjectForArray);
                 console.log(game.pic.arr);
 
-        
+                game.pic.indexNum = (game.pic.arr.length) - 1
+                console.log(game.pic.indexNum);
         
                 database.ref('arrayContainer').update({
                     array: game.pic.arr
@@ -210,7 +208,7 @@ game = {
                 }
                 
                 
-                game.onClicks.goToQueryPage();
+                
                 });
         
         },
@@ -223,7 +221,7 @@ game = {
                 
                 // setTimeout(function(){
                     // console.log(snapshot.child('player/1').val().userImage.randomSentence)
-                    var memeContainer1 = $('<div>').addClass('meme-container');
+                    var memeContainer1 = $('<div>').addClass('meme-container1 btn');
                     var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
                     var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
                     var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
@@ -236,7 +234,7 @@ game = {
 
                 
                 
-                    var memeContainer2 = $('<div>').addClass('meme-container');
+                    var memeContainer2 = $('<div>').addClass('meme-container2 btn');
                     var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
                     var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
                     var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
@@ -246,6 +244,7 @@ game = {
 
 
                     $('.battle').append(memeContainer1).append(memeContainer2);
+                    game.onClicks.goToQueryPage();
                 })
             
             });
@@ -528,8 +527,11 @@ t                 } else{
         },
 
         goToQueryPage: function(){
-            $('#meme-container').on('click', function(){
-            document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + game.pic.indexNum;
+            var indexNumString = (game.pic.indexNum).toString();
+            var playerString = (game.variables.player).toString();
+            $('.meme-container'+ playerString).on('click', function(){
+            alert('clicked');
+            document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + indexNumString;
         });
         }
     }
