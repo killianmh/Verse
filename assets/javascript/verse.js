@@ -529,7 +529,7 @@ t                 } else{
         goToQueryPage: function(){
             var indexNumString = (game.pic.indexNum).toString();
             var playerString = (game.variables.player).toString();
-            $('.meme-container'+ game.variables.player).on('click', function(){
+            $('.meme-container'+ playerString).on('click', function(){
             alert('clicked');
             document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + indexNumString;
         });
