@@ -204,7 +204,7 @@ game = {
                 
                 // game.functions.create();
                 if (game.variables.player === 1){
-                    setTimeout(game.functions.create,5000)
+                    setTimeout(game.functions.create,6000)
                 } else if (game.variables.player === 2){
                     game.functions.create()
                 }
@@ -309,7 +309,7 @@ game = {
                     $('html, body').animate({
                         scrollTop: $(".battle").offset().top
                 }, 400); 
-                // $('.build-rap').fadeOut();  
+                $('.build-rap').fadeOut();  
                 }
             }, 1000)
             
@@ -350,7 +350,7 @@ game = {
                             $('#user-name-waiting').hide();
                             $('#user-name-waiting').text('Waiting for other player...');
                             $('#user-name-waiting').fadeIn();
-                            // $('#user-name-submit').fadeOut();
+                            $('#user-name-submit').fadeOut();
 
                         } else if (snapshot.val().step === 2){
                             game.variables.player = 2;                            
@@ -537,6 +537,8 @@ t                 } else{
 
 
 $(document).ready(function(){
+    $('.header').hide();
+    $('.header').fadeIn();
     game.functions.generateGame();
     game.onClicks.getUserName();
     game.onClicks.chooseHype();  
