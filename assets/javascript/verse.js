@@ -565,12 +565,12 @@ $(document).ready(function(){
                 }
             }
 
-            $(".multiple-items").slick(){
+            $(".multiple-items").slick({
                 autoplay: true,
                 slidesToShow: 5,
                 slidesToScroll: 1,
                 autoplaySpeed: 500
-            }
+            });
     });
 
 });
