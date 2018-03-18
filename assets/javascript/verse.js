@@ -526,7 +526,7 @@ t                 } else{
 
         goToQueryPage: function(){
             var indexNumString = (game.pic.indexNum).toString();
-            $('.meme-container'+ game.pic.indexNum).on('click', function(){
+            $('.meme-container'+ indexNumString).on('click', function(){
             alert('clicked');
             document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + indexNumString;
         });
