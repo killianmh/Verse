@@ -1,15 +1,14 @@
 var config = {
-    apiKey: "AIzaSyBTv7aLpgOo0RSq4689Fr9a8K7fzF-aG0g",
-    authDomain: "test-for-gif.firebaseapp.com",
-    databaseURL: "https://test-for-gif.firebaseio.com",
-    projectId: "test-for-gif",
-    storageBucket: "",
-    messagingSenderId: "832440429464"
+  apiKey: "AIzaSyBx9Yt8xafU7Zz3zuAczc1RfoW-EktImyI",
+  authDomain: "verse-7f3f4.firebaseapp.com",
+  databaseURL: "https://verse-7f3f4.firebaseio.com",
+  projectId: "verse-7f3f4",
+  storageBucket: "",
+  messagingSenderId: "374838587919"
   };
-
   firebase.initializeApp(config);
-
   var database = firebase.database();
+  
 
   function getUrlVars()
   {
