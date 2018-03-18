@@ -190,6 +190,7 @@ game = {
                 console.log(game.pic.arr);
 
                 game.pic.indexNum = (game.pic.arr.length) - 1
+                console.log(game.pic.indexNum);
         
                 database.ref('arrayContainer').update({
                     array: game.pic.arr
