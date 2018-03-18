@@ -221,11 +221,10 @@ game = {
                 
                 // setTimeout(function(){
                     // console.log(snapshot.child('player/1').val().userImage.randomSentence)
-                    var memeContainer1 = $('<div>').addClass('meme-container1 btn col-md-4 col-md-offset-2');
+                    var memeContainer1 = $('<div>').addClass('meme-container1 btn');
                     var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
                     var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
                     var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
-                    memePicture1.addClass('gif-img');
                     memeContainer1.append(memeWord1).append(memePicture1).append(memeSentence1);
                     
                     
@@ -235,12 +234,10 @@ game = {
 
                 
                 
-                    var memeContainer2 = $('<div>').addClass('meme-container2 btn col-md-4');
+                    var memeContainer2 = $('<div>').addClass('meme-container2 btn');
                     var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
                     var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
                     var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
-                    memePicture2.addClass('gif-img');
-                    
                     memeContainer2.append(memeWord2).append(memePicture2).append(memeSentence2);
                     console.log('testing inside')
                 
@@ -313,9 +310,9 @@ game = {
                     $('html, body').animate({
                         scrollTop: $(".battle").offset().top
                 }, 400); 
+                // $('.build-rap').fadeOut();  
                 }
             }, 1000)
-            $('.build-rap').fadeOut(); 
             
             
         },
@@ -354,7 +351,7 @@ game = {
                             $('#user-name-waiting').hide();
                             $('#user-name-waiting').text('Waiting for other player...');
                             $('#user-name-waiting').fadeIn();
-                            $('#user-name-submit').fadeOut();
+                            // $('#user-name-submit').fadeOut();
 
                         } else if (snapshot.val().step === 2){
                             game.variables.player = 2;                            
@@ -536,39 +533,39 @@ t                 } else{
 
 
 $(document).ready(function(){
-    $('.header').hide();
-    $('.header').fadeIn();
     game.functions.generateGame();
     game.onClicks.getUserName();
     game.onClicks.chooseHype();  
     AOS.init();
 
-    database.ref().on("value", function(snapshot){
-        console.log(snapshot.child('players/1/hypeChosen').val());
-        if (snapshot.child('players/1/hypeChosen').val() === true  && snapshot.child('players/2/hypeChosen').val() ===  true){
-            database.ref('players/1').update({
-                hypeChosen : false
-            })
-            database.ref('players/2').update({
-                hypeChosen : false
-            })
-            
-            game.functions.getRapSentence();
-            // $('#random-line').text(game.variables.sentence);
-            game.functions.countdownTimer();
-            $('.build-rap').fadeIn();
-            
-            $('html, body').animate({
-                scrollTop: $(".build-rap").offset().top
-            }, 400); 
-            $('.hype-chars').fadeOut();
-            game.onClicks.hypeHelp(); 
-            game.onClicks.getNewLine();
-            game.onClicks.getUserLine();
-            database.ref().update({
-                step : 0
-            }) 
+    database.ref().update({
+        loadScroll: true
+    })
+
+    database.ref().once("value", function(snapshot){
+        console.log(snapshot.child('arrayContainer/array').val().length);
+        var array = snapshot.child('arrayContainer/array').val();
+        if(array.length < 10){
+            for(i = 0; i< array.length; i++){
+                var newGif = $("<img>");
+                    newGif.attr("src",array[i].image);
+                    $(".multiple-items").append(newGif);
+                }
         }
+            else{
+                for (i = array.length - 10; i < array.length; i ++){
+                    var newGif = $("<img>");
+                    newGif.attr("src",array[i].image);
+                    $(".multiple-items").append(newGif);
+                }
+            }
+
+            $(".multiple-items").slick({
+                autoplay: true,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                autoplaySpeed: 500
+            })
     });
 
 });
