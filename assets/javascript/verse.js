@@ -189,7 +189,7 @@ game = {
                 game.pic.arr.push(game.pic.imageObjectForArray);
                 console.log(game.pic.arr);
 
-        
+                game.pic.indexNum = (game.pic.arr.length) - 1
         
                 database.ref('arrayContainer').update({
                     array: game.pic.arr
@@ -525,7 +525,7 @@ t                 } else{
         },
 
         goToQueryPage: function(){
-            $('#meme-container').on('click', function(){
+            $('#meme-container'+ game.pic.indexNum).on('click', function(){
             document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + game.pic.indexNum;
         });
         }
