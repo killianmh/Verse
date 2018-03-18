@@ -30,10 +30,7 @@ game = {
     functions : {
         generateGame : function(){
             database.ref().once("value", function(snapshot){
-                if (snapshot.child('players/2/username').val() === "") { 
-                    console.log('test')
-                    
-                } else {
+                if (snapshot.child('players/2/username').val() !== "") { 
                     console.log(snapshot)
                     $('section').hide();
                     $('body').text('enjoy your new virus!');
@@ -177,9 +174,6 @@ game = {
             }
         },
         getGifs : function(word, sentence, givenSentence) {
-            database.ref().push({
-                string: "ebfiwjnfijsnv"
-            })
             $.ajax({
                 url:"https://api.giphy.com/v1/gifs/search?q=" + word + "&rating=pg&limit=1&api_key=CTQB8RbrPA6QANI0K2AHuM915bo0avta",
                 method: "GET"
@@ -195,7 +189,6 @@ game = {
                 game.pic.arr.push(game.pic.imageObjectForArray);
                 console.log(game.pic.arr);
 
-                // game.pic.indexNum = game.pic.arr.length()-1;
         
         
                 database.ref('arrayContainer').update({
@@ -206,18 +199,53 @@ game = {
                     userImage : game.pic.imageObjectForArray
                 })
                 
+                // game.functions.create();
+                if (game.variables.player === 1){
+                    setTimeout(game.functions.create,5000)
+                } else if (game.variables.player === 2){
+                    game.functions.create()
+                }
                 
-                var memeContainer = $('<div>').addClass('meme-container');
-                var memeWord = $('<h2>').text(givenSentence);
-                var memeSentence = $('<p>').text(sentence);
-                var memePicture = $('<img>').attr('src', response.data[0].images.fixed_height.url);
-        
-                memeContainer.append(memeWord).append(memePicture).append(memeSentence);
-                $('.battle').append(memeContainer);
                 
                 game.onClicks.goToQueryPage();
                 });
         
+        },
+        create : function(){
+
+            database.ref('player/2').on("value", function(snapshot){
+                
+                database.ref('player').once("value", function(snapshot){
+                
+                
+                // setTimeout(function(){
+                    // console.log(snapshot.child('player/1').val().userImage.randomSentence)
+                    var memeContainer1 = $('<div>').addClass('meme-container');
+                    var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
+                    var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
+                    var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
+                    memeContainer1.append(memeWord1).append(memePicture1).append(memeSentence1);
+                    
+                    
+                // },10000)
+                
+                
+
+                
+                
+                    var memeContainer2 = $('<div>').addClass('meme-container');
+                    var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
+                    var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
+                    var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
+                    memeContainer2.append(memeWord2).append(memePicture2).append(memeSentence2);
+                    console.log('testing inside')
+                
+
+
+                    $('.battle').append(memeContainer1).append(memeContainer2);
+                })
+            
+            });
         },
         giphyFirebase: function() {
             database.ref('arrayContainer/trigger').set({
@@ -242,45 +270,47 @@ game = {
         },
 
         countdownTimer: function(){
-            var timeLeft = 30;
+            console.log('clock')
+            var timeLeft = 5;
             $('#time-box').text(timeLeft);
-            setInterval(function(){
+            var myClock = setInterval(function(){
                 timeLeft--;
                 $('#time-box').text(timeLeft);
                 if(timeLeft === 0){
+                    clearInterval(myClock);
                     game.variables.userLine = $('#user-line').val().trim();
                     if(game.variables.player === 1){
                         game.functions.giphyFirebase();
                     } else if (game.variables.player === 2){
-                        setTimeout(game.functions.giphyFirebase, 5000);
+                        setTimeout(game.functions.giphyFirebase, 4000);
                     }
-                    setTimeout(function(){
+                    // setTimeout(function(){
                             database.ref("players").set({
                                 1 : {
                                     username : "",
                                     userLine : "",
                                     userChar : "",
-                                    
                                 },
                                 2 : {
                                     username : "",
                                     userLine : "",
                                     userChar : "",
-                                }
+                                },
                             }),
                             database.ref().update({
                                 step : 1
                             })
-                    }, 6000);
-                    
+                    // }, 1000);
                     
                     $('.battle').show();
                     $('html, body').animate({
                         scrollTop: $(".battle").offset().top
                 }, 400); 
-                $('.build-rap').fadeOut();  
+                // $('.build-rap').fadeOut();  
                 }
             }, 1000)
+            
+            
         },
     
     },    
@@ -296,10 +326,14 @@ game = {
             
             
             $('#user-name-submit').on('click', function(){
+                console.log('submit')
                 var input = $('#user-name').val().trim();
                 if (input !== ""){
                     database.ref().once("value", function(snapshot){
+                        console.log(snapshot.val().step)
+                        
                         if (snapshot.val().step === 1){
+                            
                             game.variables.player = 1;
                             game.variables.username = input
                             database.ref('players/'+game.variables.player).update({
