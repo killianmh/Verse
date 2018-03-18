@@ -225,6 +225,7 @@ game = {
                     var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
                     var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
                     var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
+                    memePicture1.addClass('gif-img');
                     memeContainer1.append(memeWord1).append(memePicture1).append(memeSentence1);
                     
                     
@@ -238,6 +239,8 @@ game = {
                     var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
                     var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
                     var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
+                    memePicture2.addClass('gif-img');
+                    
                     memeContainer2.append(memeWord2).append(memePicture2).append(memeSentence2);
                     console.log('testing inside')
                 

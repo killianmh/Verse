@@ -235,6 +235,10 @@ input{
 
 
 /* battle */
+.gif-img{
+    width: 80%;
+    height: 200px;
+}
 /* Footer */
 footer{
     height: 100px;
