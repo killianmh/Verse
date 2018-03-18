@@ -60,10 +60,11 @@ function parse_query_string(query) {
         imageObject = snapshot.child('array/'+ numString).val();
 
         console.log(imageObject);
-        var memeContainer = $('<div>').addClass('meme-container');
-        var memeWord = $('<h2>').text(imageObject.randomSentence);
-        var memeSentence = $('<p>').text(imageObject.userSentence);
-        var memePicture = $('<img>').attr('src', imageObject.image);
+        var memeContainer = $('<div>').addClass('meme-container container justify-content-center');
+        var memeWord = $('<h2>').text(imageObject.randomSentence).addClass('row justify-content-center');
+        var memeSentence = $('<p>').text(imageObject.userSentence).addClass('row justify-content-center');
+        var memePicture = $('<img>').attr('src', imageObject.image).addClass('row mx-auto d-blockmeme-picture');
+       
         
         memeContainer.append(memeWord).append(memePicture).append(memeSentence);
         $('#container').html(memeContainer);

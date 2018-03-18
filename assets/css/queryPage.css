@@ -1,0 +1,21 @@
+body{
+    background-image: url("../images/crowd.jpg");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+}
+
+.meme-container {
+    background-color: black; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 400px;
+    margin: -300px 0 0 -300px;
+}
+
+.meme-picture{
+    border-color: white;
+}
