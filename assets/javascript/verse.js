@@ -202,7 +202,7 @@ game = {
                 
                 // game.functions.create();
                 if (game.variables.player === 1){
-                    setTimeout(game.functions.create,6000)
+                    setTimeout(game.functions.create,7000)
                 } else if (game.variables.player === 2){
                     game.functions.create()
                 }
