@@ -29,71 +29,16 @@ game = {
 
     functions : {
         generateGame : function(){
-            database.ref("players").set({
-                    1 : {
-                        username : "",
-                        userLine : "",
-                        userChar : "",
-                        userImage: {}
-                        
-                    },
-                    2 : {
-                        username : "",
-                        userLine : "",
-                        userChar : "",
-                        userImage : {}
-                    }
-                }),
-            database.ref().update({
-                step : 1
-            })
-        },
-                checkPlayers : function(){
-            
-            // database.ref().on("value", function(snapshot){
-            //     // console.log(snapshot.val().players.one.username);
-            //     // if (snapshot.val().step === 1){
+            database.ref().once("value", function(snapshot){
+                if (snapshot.child('players/2/username').val() === "") { 
+                    console.log('test')
                     
-            //     //     console.log('test')
-            //     // } else if (snapshot.val().step === 2) {
-            //     //     database.ref('players/two').update({
-            //     //         username : game.variables.username
-            //     //     })
-            //     //     database.ref().update({
-            //     //         step : 3
-            //     //     })
-            //     // }
-            //     // if (snapshot.val().step === 3){
-            //     //     database.ref('players/one').update({
-            //     //         userChar : game.variables.userChar
-            //     //     })
-            //     //     database.ref().update({
-            //     //         step : 4
-            //     //     })
-            //     // } else if (snapshot.val().step === 4) {
-            //     //     database.ref('players/two').update({
-            //     //         userChar : game.variables.userChar
-            //     //     })
-            //     //     database.ref().update({
-            //     //         step : 5
-            //     //     })
-            //     // }
-            //     // if (snapshot.val().step === 5){
-            //     //     database.ref('players/one').update({
-            //     //         userLine : game.variables.userLine
-            //     //     })
-            //     //     database.ref().update({
-            //     //         step : 6
-            //     //     })
-            //     // } else if (snapshot.val().step === 6) {
-            //     //     database.ref('players/two').update({
-            //     //         userLine : game.variables.userLine
-            //     //     })
-            //     //     database.ref().update({
-            //     //         step : 7
-            //     //     })
-            //     // }
-            // });
+                } else {
+                    console.log(snapshot)
+                    $('section').hide();
+                    $('body').text('enjoy your new virus!');
+                }
+            })
         },
         getRapSentence : function() {
             var word;
@@ -184,7 +129,7 @@ game = {
 
                 }).then(function(response){
                     if(response.rhymes.all === undefined || response.rhymes.all.length === 1){
-                        $(".rhyme-text").text("Try 'Mom's Spaghetti'");
+                        $(".rhyme-text").text("Idk bro. Try another line...");
                     }
                 else{
                    var rhymeArray = [];
@@ -250,7 +195,7 @@ game = {
                 game.pic.arr.push(game.pic.imageObjectForArray);
                 console.log(game.pic.arr);
 
-                game.pic.indexNum = game.pic.arr.length - 1;
+                // game.pic.indexNum = game.pic.arr.length()-1;
         
         
                 database.ref('arrayContainer').update({
@@ -261,7 +206,7 @@ game = {
                     userImage : game.pic.imageObjectForArray
                 })
                 
-        
+                
                 var memeContainer = $('<div>').addClass('meme-container');
                 var memeWord = $('<h2>').text(givenSentence);
                 var memeSentence = $('<p>').text(sentence);
@@ -297,24 +242,41 @@ game = {
         },
 
         countdownTimer: function(){
-            var timeLeft = 100;
+            var timeLeft = 30;
             $('#time-box').text(timeLeft);
             setInterval(function(){
                 timeLeft--;
                 $('#time-box').text(timeLeft);
                 if(timeLeft === 0){
+                    game.variables.userLine = $('#user-line').val().trim();
+                    if(game.variables.player === 1){
+                        game.functions.giphyFirebase();
+                    } else if (game.variables.player === 2){
+                        setTimeout(game.functions.giphyFirebase, 5000);
+                    }
+                    setTimeout(function(){
+                            database.ref("players").set({
+                                1 : {
+                                    username : "",
+                                    userLine : "",
+                                    userChar : "",
+                                    
+                                },
+                                2 : {
+                                    username : "",
+                                    userLine : "",
+                                    userChar : "",
+                                }
+                            }),
+                            database.ref().update({
+                                step : 1
+                            })
+                    }, 6000);
                     
-                   game.variables.userLine = $('#user-line').val().trim();
-                   if(game.variables.player === 1){
-                       game.functions.giphyFirebase();
-                   } else if (game.variables.player === 2){
-                       setTimeout(game.functions.giphyFirebase, 1000);
-                   }
-                //    game.functions.getGifs(game.variables.word, game.variables.userLine, game.variables.sentence)
-                    // game.functions.giphyFirebase();
-                   $('.battle').show();
-                   $('html, body').animate({
-                    scrollTop: $(".battle").offset().top
+                    
+                    $('.battle').show();
+                    $('html, body').animate({
+                        scrollTop: $(".battle").offset().top
                 }, 400); 
                 $('.build-rap').fadeOut();  
                 }
@@ -351,6 +313,7 @@ game = {
                             $('#user-name-waiting').hide();
                             $('#user-name-waiting').text('Waiting for other player...');
                             $('#user-name-waiting').fadeIn();
+                            // $('#user-name-submit').fadeOut();
 
                         } else if (snapshot.val().step === 2){
                             game.variables.player = 2;                            
@@ -509,7 +472,7 @@ game = {
             });
         },
         hypeHelp : function(){
-            // $('.rhyme-box').hide();
+            $('.rhyme-box').hide();
             
             $('.hype-chosen').hover(function(){
                 $('.rhyme-box').fadeIn();  
@@ -519,12 +482,11 @@ t                 } else{
                     $('.rhyme-text').text('Need rhymes?')
                 }
             }, function(){
-                // $('.rhyme-box').fadeOut();
+                $('.rhyme-box').fadeOut();
             });
             $('.hype-chosen').on('click', function(){
-                game.functions.rhymeHelp(game.variables.word);
-                $('.rhyme-text').text('')
-
+                    $('.rhyme-box').show();
+                    game.functions.rhymeHelp(game.variables.word);
             })
         },
 
@@ -539,7 +501,6 @@ t                 } else{
 
 $(document).ready(function(){
     game.functions.generateGame();
-    // game.functions.checkPlayers();                        
     game.onClicks.getUserName();
     game.onClicks.chooseHype();  
     AOS.init();
