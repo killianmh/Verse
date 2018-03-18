@@ -243,7 +243,7 @@ game = {
                 
 
 
-                    $('.battle').append(memeContainer1).append(memeContainer2);
+                    $('#user-rap').append(memeContainer1).append(memeContainer2);
                     game.onClicks.goToQueryPage();
                 })
             
