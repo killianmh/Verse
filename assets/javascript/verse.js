@@ -542,30 +542,30 @@ $(document).ready(function(){
         loadScroll: true
     })
 
-    database.ref().once("value", function(snapshot){
-        console.log(snapshot.child('arrayContainer/array').val().length);
-        var array = snapshot.child('arrayContainer/array').val();
-        if(array.length < 10){
-            for(i = 0; i< array.length; i++){
-                var newGif = $("<img>");
-                    newGif.attr("src",array[i].image);
-                    $(".multiple-items").append(newGif);
-                }
-        }
-            else{
-                for (i = array.length - 10; i < array.length; i ++){
-                    var newGif = $("<img>");
-                    newGif.attr("src",array[i].image);
-                    $(".multiple-items").append(newGif);
-                }
-            }
+    // database.ref().once("value", function(snapshot){
+    //     console.log(snapshot.child('arrayContainer/array').val().length);
+    //     var array = snapshot.child('arrayContainer/array').val();
+    //     if(array.length < 10){
+    //         for(i = 0; i< array.length; i++){
+    //             var newGif = $("<img>");
+    //                 newGif.attr("src",array[i].image);
+    //                 $(".multiple-items").append(newGif);
+    //             }
+    //     }
+    //         else{
+    //             for (i = array.length - 10; i < array.length; i ++){
+    //                 var newGif = $("<img>");
+    //                 newGif.attr("src",array[i].image);
+    //                 $(".multiple-items").append(newGif);
+    //             }
+    //         }
 
-            $(".multiple-items").slick({
-                autoplay: true,
-                slidesToShow: 5,
-                slidesToScroll: 1,
-                autoplaySpeed: 500
-            })
-    });
+    //         $(".multiple-items").slick({
+    //             autoplay: true,
+    //             slidesToShow: 5,
+    //             slidesToScroll: 1,
+    //             autoplaySpeed: 500
+    //         });
+    // });
 
 });
