@@ -273,7 +273,7 @@ game = {
 
         countdownTimer: function(){
             console.log('clock')
-            var timeLeft = 5;
+            var timeLeft = 30;
             $('#time-box').text(timeLeft);
             var myClock = setInterval(function(){
                 timeLeft--;
@@ -351,7 +351,7 @@ game = {
                             $('#user-name-waiting').hide();
                             $('#user-name-waiting').text('Waiting for other player...');
                             $('#user-name-waiting').fadeIn();
-                            // $('#user-name-submit').fadeOut();
+                            $('#user-name-submit').fadeOut();
 
                         } else if (snapshot.val().step === 2){
                             game.variables.player = 2;                            
@@ -509,7 +509,7 @@ game = {
                 $('.rhyme-box').fadeIn();  
                 if(game.variables.hypeChoice == "eminem"){
                     $('.rhyme-text').text("Mom's Spaghetti?");
-t                 } else{
+                } else{
                     $('.rhyme-text').text('Need rhymes?')
                 }
             }, function(){
