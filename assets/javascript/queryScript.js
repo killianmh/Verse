@@ -56,7 +56,7 @@ function parse_query_string(query) {
         trigger: 'yes'
     })
 
-    database.ref('arrayContainer').on('value', function(snapshot){
+    database.ref('arrayContainer').once('value', function(snapshot){
         imageObject = snapshot.child('array/'+ numString).val();
 
         console.log(imageObject);
