@@ -68,7 +68,7 @@ function parse_query_string(query) {
        
         
         memeContainer.append(memeWord).append(memePicture).append(memeSentence).append(memeShare);
-        $('#container').append(memeContainer);
+        $('#container').prepend(memeContainer);
 
         database.ref('arrayContainer/trigger').remove();
     })
