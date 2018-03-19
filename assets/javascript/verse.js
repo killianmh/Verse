@@ -328,36 +328,27 @@ game = {
         gotCharacter : function(){
             database.ref().on("value", function(snapshot){
                 console.log(snapshot.child('players/1/username').val());
-                if (snapshot.child('players/1/username').val() !== ""  && snapshot.child('players/2/username').val() !==  ""){
-                        database.ref('players/1').update({
-                            hypeChosen : false
-                        })
-                        database.ref('players/2').update({
-                            hypeChosen : false
-                        })
-                        
-                        game.functions.getRapSentence();
-                        // $('#random-line').text(game.variables.sentence);
-                    game.functions.countdownTimer();
-                    $('.build-rap').fadeIn();
-                    
-                    $('html, body').animate({
-                        scrollTop: $(".build-rap").offset().top
-                    }, 400); 
-                    $('.hype-chars').fadeOut();
-                    game.onClicks.hypeHelp(); 
-                    game.onClicks.getNewLine();
-                    game.onClicks.getUserLine();
-                    database.ref().update({
-                        step : 0
-                    }) 
+                if (snapshot.child('players/1/userChar').val() !== ""  && snapshot.child('players/2/userChar').val() !==  "" && snapshot.child('players/1/hypeChosen').val() === false  && snapshot.child('players/2/hypeChosen').val() ===  false && snapshot.child('step').val() !== 4){
+                    console.log('gotCharacter Ran')
+                      // Scrolls page to next section
+                      $('.hype-chars').fadeIn();
+                      $('html, body').animate({
+                          scrollTop: $(".hype-chars").offset().top
+                      }, 400);  
+                      $('.info-character').fadeOut();
+                      // game.functions.checkPlayers(); 
+                      // database.ref().off();
+                    // database.ref().off();
+                      
                 }
             });
         },
         chosenHype : function(){
             database.ref().on("value", function(snapshot){
                 console.log(snapshot.child('players/1/hypeChosen').val());
-                if (snapshot.child('players/1/hypeChosen').val() === true  && snapshot.child('players/2/hypeChosen').val() ===  true){
+                if (snapshot.child('players/1/hypeChosen').val() === true  && snapshot.child('players/2/hypeChosen').val() ===  true && snapshot.child('players/1/userChar').val() !== ""  && snapshot.child('players/2/userChar').val() !==  ""){
+                    console.log('chosenHype Ran')
+                    
                         database.ref('players/1').update({
                             hypeChosen : false
                         })
@@ -378,8 +369,10 @@ game = {
                     game.onClicks.getNewLine();
                     game.onClicks.getUserLine();
                     database.ref().update({
-                        step : 0
+                        step : 4
                     }) 
+                // database.ref().off();
+                    
                 }
             });
         }
@@ -441,7 +434,7 @@ game = {
                  }
             });
             database.ref().on("value", function(snapshot){
-                if (snapshot.val().step === 3){
+                if (snapshot.val().step === 3 && snapshot.child('players/1/userChar').val() === ""  && snapshot.child('players/2/userChar').val() ===  ""){
                     $('.info-character').fadeIn();
                     $('html, body').animate({
                         scrollTop: $(".info-character").offset().top
@@ -461,41 +454,41 @@ game = {
                 var choice = $(this).attr('id');
                 console.log(choice)
                 database.ref().once("value", function(snapshot){
-                    if (snapshot.val().step === 3){
+                    // if (snapshot.val().step === 3){
                         game.variables.userChar = choice;
                         database.ref('players/'+game.variables.player).update({
                             userChar : game.variables.userChar
                         })
-                        database.ref().update({
-                            step : 4
-                        })   
+                        // database.ref().update({
+                        //     step : 4
+                        // })   
                         $('.user-chars').fadeOut();
                         $('.characters').text('Waiting for other player...')
     
-                    } else if (snapshot.val().step === 4){
-                        game.variables.userChar = choice;
-                        database.ref('players/'+game.variables.player).update({
-                            userChar : game.variables.userChar
-                        })
-                        database.ref().update({
-                            step : 5
-                        })   
-                    }
+                    // } else if (snapshot.val().step === 4){
+                    //     game.variables.userChar = choice;
+                    //     database.ref('players/'+game.variables.player).update({
+                    //         userChar : game.variables.userChar
+                    //     })
+                    //     database.ref().update({
+                    //         step : 5
+                    //     })   
+                    // }
                 });
-                database.ref().on("value", function(snapshot){
-                    if (snapshot.val().step === 5){
-                    // Scrolls page to next section
-                        $('.hype-chars').fadeIn();
-                        $('html, body').animate({
-                            scrollTop: $(".hype-chars").offset().top
-                        }, 400);  
-                        $('.info-character').fadeOut();
-                        // game.functions.checkPlayers(); 
-                        // database.ref().off();
+                // database.ref().on("value", function(snapshot){
+                //     if (snapshot.val().step === 5){
+                //     // Scrolls page to next section
+                //         $('.hype-chars').fadeIn();
+                //         $('html, body').animate({
+                //             scrollTop: $(".hype-chars").offset().top
+                //         }, 400);  
+                //         $('.info-character').fadeOut();
+                //         // game.functions.checkPlayers(); 
+                //         // database.ref().off();
                          
                         
-                    }
-                });
+                //     }
+                // });
                               
                 
             });
@@ -508,10 +501,10 @@ game = {
                 hypeMan.addClass('hype-choice-api');
                 $('.hype-chosen').append(hypeMan);
                 database.ref().once("value", function(snapshot){
-                    if (snapshot.val().step === 5){
-                        database.ref('players/'+game.variables.player).update({
-                            hypeChosen : true
-                        })
+                    // if (snapshot.val().step === 5){
+                    database.ref('players/'+game.variables.player).update({
+                        hypeChosen : true
+                    })
                         // database.ref().update({
                         //     step : 6
                         // })   
@@ -522,7 +515,7 @@ game = {
                     //     })
                     //     database.ref().update({
                     //         step : 7
-                    }
+                
                     // }
                     
                 });
@@ -604,6 +597,7 @@ game = {
 
 
 $(document).ready(function(){
+    // console.log(snapshot.child('step').val())
     game.onClicks.restart();
     $('#restart-game').hide();
     $('footer').hide();
@@ -611,6 +605,7 @@ $(document).ready(function(){
     game.onClicks.getUserName();
     game.onClicks.chooseHype();  
     game.functions.chosenHype();
+    game.functions.gotCharacter();
     AOS.init();
 // Fix the scroll issues later.
 // Get new domain name
@@ -620,58 +615,33 @@ $(document).ready(function(){
 // Fix the instructions
 // Check if fiberbase variables are empty instead of using steps
 
-    database.ref().on("value", function(snapshot){
-        console.log(snapshot.child('players/1/hypeChosen').val());
-        if (snapshot.child('players/1/hypeChosen').val() === true  && snapshot.child('players/2/hypeChosen').val() ===  true){
-                database.ref('players/1').update({
-                    hypeChosen : false
-                })
-                database.ref('players/2').update({
-                    hypeChosen : false
-                })
+    // database.ref().on("value", function(snapshot){
+    //     console.log(snapshot.child('players/1/hypeChosen').val());
+    //     if (snapshot.child('players/1/hypeChosen').val() === true  && snapshot.child('players/2/hypeChosen').val() ===  true){
+    //             database.ref('players/1').update({
+    //                 hypeChosen : false
+    //             })
+    //             database.ref('players/2').update({
+    //                 hypeChosen : false
+    //             })
                 
-                game.functions.getRapSentence();
-                // $('#random-line').text(game.variables.sentence);
-            game.functions.countdownTimer();
-            $('.build-rap').fadeIn();
+    //             game.functions.getRapSentence();
+    //             // $('#random-line').text(game.variables.sentence);
+    //         game.functions.countdownTimer();
+    //         $('.build-rap').fadeIn();
             
-            $('html, body').animate({
-                scrollTop: $(".build-rap").offset().top
-            }, 400); 
-            $('.hype-chars').fadeOut();
-            game.onClicks.hypeHelp(); 
-            game.onClicks.getNewLine();
-            game.onClicks.getUserLine();
-            database.ref().update({
-                step : 0
-            }) 
-        }
-    });
-
-    // database.ref().once("value", function(snapshot){
-    //     console.log(snapshot.child('arrayContainer/array').val().length);
-    //     var array = snapshot.child('arrayContainer/array').val();
-    //     if(array.length < 10){
-    //         for(i = 0; i< array.length; i++){
-    //             var newGif = $("<img>");
-    //                 newGif.attr("src",array[i].image);
-    //                 $(".multiple-items").append(newGif);
-    //             }
+    //         $('html, body').animate({
+    //             scrollTop: $(".build-rap").offset().top
+    //         }, 400); 
+    //         $('.hype-chars').fadeOut();
+    //         game.onClicks.hypeHelp(); 
+    //         game.onClicks.getNewLine();
+    //         game.onClicks.getUserLine();
+    //         database.ref().update({
+    //             step : 0
+    //         }) 
     //     }
-    //         else{
-    //             for (i = array.length - 10; i < array.length; i ++){
-    //                 var newGif = $("<img>");
-    //                 newGif.attr("src",array[i].image);
-    //                 $(".multiple-items").append(newGif);
-    //             }
-    //         }
-
-    //         $(".multiple-items").slick({
-    //             autoplay: true,
-    //             slidesToShow: 5,
-    //             slidesToScroll: 1,
-    //             autoplaySpeed: 500
-    //         });
     // });
+
 
 });
