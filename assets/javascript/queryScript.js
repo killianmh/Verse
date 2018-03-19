@@ -61,8 +61,8 @@ function parse_query_string(query) {
 
         console.log(imageObject);
         var memeContainer = $('<div>').addClass('meme-container container justify-content-center');
-        var memeWord = $('<h2>').text(imageObject.randomSentence).addClass('row justify-content-center');
-        var memeSentence = $('<h2>').text(imageObject.userSentence).addClass('row justify-content-center');
+        var memeWord = $('<h3>').text(imageObject.randomSentence+'...').addClass('row justify-content-center');
+        var memeSentence = $('<h3>').text(imageObject.userSentence).addClass('row justify-content-center');
         var memePicture = $('<img>').attr('src', imageObject.image).addClass('row mx-auto d-block meme-picture');
         var memeShare = $('<div>').addClass('');
        

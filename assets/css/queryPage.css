@@ -3,11 +3,12 @@ body{
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    color: white;
+    color: black;
 }
 
 .meme-container {
-    background-color: black; 
+    background: rgba(0, 0, 0, 0.74);
+    border-radius: 6px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -17,5 +18,8 @@ body{
 }
 
 .meme-picture{
-    border-color: white;
+    /* border-color: white; */
+    width: 500px;
+    height: 300px;
+    border-radius: 6px;
 }

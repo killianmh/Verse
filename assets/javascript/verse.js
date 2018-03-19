@@ -33,7 +33,7 @@ game = {
                 if (snapshot.child('players/2/username').val() !== "") { 
                     console.log(snapshot)
                     $('section').hide();
-                    $('body').text('enjoy your new virus!');
+                    $('.waiting-msg').fadeIn();
                 }
             })
         },
@@ -201,6 +201,8 @@ game = {
                 database.ref('player/' + game.variables.player).update({
                     userImage : game.pic.imageObjectForArray
                 })
+
+                
                 
                 // game.functions.create();
                 if (game.variables.player === 1){
@@ -224,8 +226,8 @@ game = {
                 // setTimeout(function(){
                     // console.log(snapshot.child('player/1').val().userImage.randomSentence)
                     var memeContainer1 = $('<div>').addClass('meme-container1 btn');
-                    var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
-                    var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
+                    var memeWord1 = $('<h3>').text(snapshot.child('1').val().userImage.randomSentence+'...');
+                    var memeSentence1 = $('<h3>').text(snapshot.child('1').val().userImage.userSentence);
                     var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
                     memePicture1.addClass('gif-img')
                     memeContainer1.append(memeWord1).append(memePicture1).append(memeSentence1);
@@ -238,8 +240,8 @@ game = {
                 
                 
                     var memeContainer2 = $('<div>').addClass('meme-container2 btn');
-                    var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
-                    var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
+                    var memeWord2 = $('<h3>').text(snapshot.child('2').val().userImage.randomSentence+'...');
+                    var memeSentence2 = $('<h3>').text(snapshot.child('2').val().userImage.userSentence);
                     var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
                     memePicture2.addClass('gif-img')
                     
@@ -247,8 +249,11 @@ game = {
                     console.log('testing inside')
                 
 
-
+                    $('.prepare-wait').fadeOut();
+                    $('#user-rap').hide();
                     $('#user-rap').append(memeContainer1).append(memeContainer2);
+                    $('#user-rap').fadeIn();
+                    $('#restart-game').fadeIn();           
                     game.onClicks.goToQueryPage();
                 })
             
@@ -318,7 +323,6 @@ game = {
                 $('.build-rap').fadeOut();  
                 $('footer').show();  
                 setTimeout(function(){
-                    $('#restart-game').fadeIn();
                 }, 7000);
                 }
             }, 1000)
@@ -534,7 +538,7 @@ game = {
                         //     step : 4
                         // })   
                         $('.user-chars').fadeOut();
-                        $('.characters').text('Waiting for other player...')
+                        $('#char-info').text('Waiting for other player...')
     
                     // } else if (snapshot.val().step === 4){
                     //     game.variables.userChar = choice;
@@ -570,6 +574,7 @@ game = {
                 game.variables.hypeChoice = choice;
                 var hypeMan = $(this).clone();
                 hypeMan.addClass('hype-choice-api');
+                $('.hype-chosen').empty();
                 $('.hype-chosen').append(hypeMan);
                 database.ref().once("value", function(snapshot){
                     // if (snapshot.val().step === 5){
@@ -646,8 +651,8 @@ game = {
                 $('.rhyme-box').fadeOut();
             });
             $('.hype-chosen').on('click', function(){
-                // $('.rhyme-box').show();
                 game.functions.rhymeHelp(game.variables.word);
+                
             })
             
         },
@@ -672,6 +677,7 @@ $(document).ready(function(){
     game.onClicks.restart();
     $('#restart-game').hide();
     $('footer').hide();
+    $('.waiting-msg').hide();
     game.functions.generateGame();
     game.onClicks.getUserName();
     game.onClicks.chooseHype();  
