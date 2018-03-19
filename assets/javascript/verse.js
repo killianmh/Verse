@@ -325,7 +325,64 @@ game = {
             
             
         },
-    
+        gotCharacter : function(){
+            database.ref().on("value", function(snapshot){
+                console.log(snapshot.child('players/1/username').val());
+                if (snapshot.child('players/1/username').val() !== ""  && snapshot.child('players/2/username').val() !==  ""){
+                        database.ref('players/1').update({
+                            hypeChosen : false
+                        })
+                        database.ref('players/2').update({
+                            hypeChosen : false
+                        })
+                        
+                        game.functions.getRapSentence();
+                        // $('#random-line').text(game.variables.sentence);
+                    game.functions.countdownTimer();
+                    $('.build-rap').fadeIn();
+                    
+                    $('html, body').animate({
+                        scrollTop: $(".build-rap").offset().top
+                    }, 400); 
+                    $('.hype-chars').fadeOut();
+                    game.onClicks.hypeHelp(); 
+                    game.onClicks.getNewLine();
+                    game.onClicks.getUserLine();
+                    database.ref().update({
+                        step : 0
+                    }) 
+                }
+            });
+        },
+        chosenHype : function(){
+            database.ref().on("value", function(snapshot){
+                console.log(snapshot.child('players/1/hypeChosen').val());
+                if (snapshot.child('players/1/hypeChosen').val() === true  && snapshot.child('players/2/hypeChosen').val() ===  true){
+                        database.ref('players/1').update({
+                            hypeChosen : false
+                        })
+                        database.ref('players/2').update({
+                            hypeChosen : false
+                        })
+                        
+                        game.functions.getRapSentence();
+                        // $('#random-line').text(game.variables.sentence);
+                    game.functions.countdownTimer();
+                    $('.build-rap').fadeIn();
+                    
+                    $('html, body').animate({
+                        scrollTop: $(".build-rap").offset().top
+                    }, 400); 
+                    $('.hype-chars').fadeOut();
+                    game.onClicks.hypeHelp(); 
+                    game.onClicks.getNewLine();
+                    game.onClicks.getUserLine();
+                    database.ref().update({
+                        step : 0
+                    }) 
+                }
+            });
+        }
     },    
     onClicks : {
         getUserName : function(){
@@ -356,7 +413,6 @@ game = {
                                 step : 2
                             })   
                             $('#user-name').fadeOut();
-
                             $('#user-name-waiting').hide();
                             $('#user-name-waiting').text('Waiting for other player...');
                             $('#user-name-waiting').fadeIn();
@@ -554,6 +610,7 @@ $(document).ready(function(){
     game.functions.generateGame();
     game.onClicks.getUserName();
     game.onClicks.chooseHype();  
+    game.functions.chosenHype();
     AOS.init();
 // Fix the scroll issues later.
 // Get new domain name
