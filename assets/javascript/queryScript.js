@@ -67,7 +67,7 @@ function parse_query_string(query) {
         var memeShare = $('<div>').addClass('row justify-content-center addthis_inline_share_toolbox');
        
         
-        memeContainer.append(memeWord).append(memePicture).append(memeSentence);
+        memeContainer.append(memeWord).append(memePicture).append(memeSentence).append(memeShare);
         $('#container').html(memeContainer);
 
         database.ref('arrayContainer/trigger').remove();
