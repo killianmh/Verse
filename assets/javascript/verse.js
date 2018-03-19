@@ -514,7 +514,7 @@ game = {
                 $('.rhyme-box').fadeIn();  
                 if(game.variables.hypeChoice == "eminem"){
                     $('.rhyme-text').text("Mom's Spaghetti?");
-t                 } else{
+                } else{
                     $('.rhyme-text').text('Need rhymes?')
                 }
             }, function(){
