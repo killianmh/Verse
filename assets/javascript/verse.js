@@ -339,68 +339,77 @@ game = {
                       // game.functions.checkPlayers(); 
                       // database.ref().off();
                     // database.ref().off();
-                    if (game.variables.player === 1){
-                        var opponent = $('.opponent-char')
-                        console.log(opponent);
-                        console.log($('#char-1'))
-                        if (snapshot.child('players/2/userChar').val() === 'char-1'){
-                            console.log(snapshot.child('players/2/userChar').val())
-                            var storyHTML = $('#char-1').contents()
-                            console.log(storyHTML);
-                            $('.opponent-char').append(storyHTML);
-                        } else if (snapshot.child('players/2/userChar').val() === 'char-2'){
-                            console.log(snapshot.child('players/2/userChar').val())
-                            var storyHTML = $('#char-2').contents()
-                            console.log(storyHTML);
-                            $('.opponent-char').append(storyHTML);
 
-                        } else if (snapshot.child('players/2/userChar').val() === 'char-3'){
-                            console.log(snapshot.child('players/2/userChar').val())
-                            var storyHTML = $('#char-3').contents()
-                            console.log(storyHTML);
-                            $('.opponent-char').append(storyHTML);
+                    // if (game.variables.player === 2){
+                    //     var opponent = $('.opponent-char')
+                    //     console.log(opponent);
+                    //     console.log($('#char-1'))
+                    //     if (snapshot.child('players/1/userChar').val() === 'char-1'){
+                    //         console.log(snapshot.child('players/1/userChar').val())
+                    //         var storyHTML = $('#char-1').contents()
+                    //         console.log(storyHTML);
+                    //         $('.opponent-char').append(storyHTML);
+                    //     } else if (snapshot.child('players/1/userChar').val() === 'char-2'){
+                    //         console.log(snapshot.child('players/1/userChar').val())
+                    //         var storyHTML = $('#char-2').contents()
+                    //         console.log(storyHTML);
+                    //         $('.opponent-char').append(storyHTML);
 
-                        } else if (snapshot.child('players/2/userChar').val() === 'char-4'){
-                            console.log(snapshot.child('players/2/userChar').val())
-                            var storyHTML = $('#char-4').contents()
-                            console.log(storyHTML);
-                            $('.opponent-char').append(storyHTML);
+                    //     } else if (snapshot.child('players/1/userChar').val() === 'char-3'){
+                    //         console.log(snapshot.child('players/1/userChar').val())
+                    //         var storyHTML = $('#char-3').contents()
+                    //         console.log(storyHTML);
+                    //         $('.opponent-char').append(storyHTML);
 
-                        } 
+                    //     } else if (snapshot.child('players/1/userChar').val() === 'char-4'){
+                    //         console.log(snapshot.child('players/1/userChar').val())
+                    //         var storyHTML = $('#char-4').contents()
+                    //         console.log(storyHTML);
+                    //         $('.opponent-char').append(storyHTML);
+
+                    //     } 
                        
 
-                    }
-                    if (game.variables.player === 2){
-                        var opponent = $('.opponent-char')
-                        console.log(opponent);
-                        console.log($('#char-1'))
-                        if (snapshot.child('players/1/userChar').val() === 'char-1'){
-                            console.log(snapshot.child('players/1/userChar').val())
-                            var storyHTML = $('#char-1').contents()
-                            console.log(storyHTML);
-                            $('.opponent-char').append(storyHTML);
-                        } else if (snapshot.child('players/1/userChar').val() === 'char-2'){
-                            console.log(snapshot.child('players/1/userChar').val())
-                            var storyHTML = $('#char-2').contents()
-                            console.log(storyHTML);
-                            $('.opponent-char').append(storyHTML);
+                    // } 
+                    // if (game.variables.player === 1){
+                    //     var opponent = $('.opponent-char')
+                    //     console.log($('#char-1'))
+                    //     if (snapshot.child('players/2/userChar').val() === 'char-1'){
+                    //         console.log(snapshot.child('players/2/userChar').val())
+                    //         var storyHTML = $('#char-1').contents()
+                    //     console.log('owowowowowowow');
+                            
+                    //         console.log(storyHTML);
+                    //         $('.opponent-char').append('text');
+                    //     } else if (snapshot.child('players/2/userChar').val() === 'char-2'){
+                    //         console.log(snapshot.child('players/2/userChar').val())
+                    //         var storyHTML = $('#char-2').contents()
+                    //         console.log(storyHTML);
+                    //     console.log('jijijijijiji');
+                            
+                    //         $('.opponent-char').append('text');
 
-                        } else if (snapshot.child('players/1/userChar').val() === 'char-3'){
-                            console.log(snapshot.child('players/1/userChar').val())
-                            var storyHTML = $('#char-3').contents()
-                            console.log(storyHTML);
-                            $('.opponent-char').append(storyHTML);
+                    //     } else if (snapshot.child('players/2/userChar').val() === 'char-3'){
+                    //         console.log(snapshot.child('players/2/userChar').val())
+                    //         var storyHTML = $('#char-3').contents()
+                    //         console.log(storyHTML);
+                    //         $('.opponent-char').append('text');
+                    //     console.log('abababababab');
+                            
 
-                        } else if (snapshot.child('players/1/userChar').val() === 'char-4'){
-                            console.log(snapshot.child('players/1/userChar').val())
-                            var storyHTML = $('#char-4').contents()
-                            console.log(storyHTML);
-                            $('.opponent-char').append(storyHTML);
+                    //     } else if (snapshot.child('players/2/userChar').val() === 'char-4'){
+                    //         console.log(snapshot.child('players/2/userChar').val())
+                    //         var storyHTML = $('#char-4').contents()
+                    //         console.log(storyHTML);
+                    //         $('.opponent-char').append('text');
+                    //     console.log('owowowowowowow');
+                            
 
-                        } 
+                    //     } 
                        
 
-                    } 
+                    // }
+                    
                       
                 }
             });
