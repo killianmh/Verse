@@ -538,9 +538,33 @@ $(document).ready(function(){
     game.onClicks.chooseHype();  
     AOS.init();
 
-    database.ref().update({
-        loadScroll: true
-    })
+    database.ref().on("value", function(snapshot){
+        console.log(snapshot.child('players/1/hypeChosen').val());
+        if (snapshot.child('players/1/hypeChosen').val() === true  && snapshot.child('players/2/hypeChosen').val() ===  true){
+                database.ref('players/1').update({
+                    hypeChosen : false
+                })
+                database.ref('players/2').update({
+                    hypeChosen : false
+                })
+                
+                game.functions.getRapSentence();
+                // $('#random-line').text(game.variables.sentence);
+            game.functions.countdownTimer();
+            $('.build-rap').fadeIn();
+            
+            $('html, body').animate({
+                scrollTop: $(".build-rap").offset().top
+            }, 400); 
+            $('.hype-chars').fadeOut();
+            game.onClicks.hypeHelp(); 
+            game.onClicks.getNewLine();
+            game.onClicks.getUserLine();
+            database.ref().update({
+                step : 0
+            }) 
+        }
+    });
 
     // database.ref().once("value", function(snapshot){
     //     console.log(snapshot.child('arrayContainer/array').val().length);
