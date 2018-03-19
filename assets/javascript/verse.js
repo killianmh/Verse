@@ -204,7 +204,7 @@ game = {
                 
                 // game.functions.create();
                 if (game.variables.player === 1){
-                    setTimeout(game.functions.create,7000)
+                    setTimeout(game.functions.create,8000)
                 } else if (game.variables.player === 2){
                     game.functions.create()
                 }
@@ -339,6 +339,68 @@ game = {
                       // game.functions.checkPlayers(); 
                       // database.ref().off();
                     // database.ref().off();
+                    if (game.variables.player === 1){
+                        var opponent = $('.opponent-char')
+                        console.log(opponent);
+                        console.log($('#char-1'))
+                        if (snapshot.child('players/2/userChar').val() === 'char-1'){
+                            console.log(snapshot.child('players/2/userChar').val())
+                            var storyHTML = $('#char-1').contents()
+                            console.log(storyHTML);
+                            $('.opponent-char').append(storyHTML);
+                        } else if (snapshot.child('players/2/userChar').val() === 'char-2'){
+                            console.log(snapshot.child('players/2/userChar').val())
+                            var storyHTML = $('#char-2').contents()
+                            console.log(storyHTML);
+                            $('.opponent-char').append(storyHTML);
+
+                        } else if (snapshot.child('players/2/userChar').val() === 'char-3'){
+                            console.log(snapshot.child('players/2/userChar').val())
+                            var storyHTML = $('#char-3').contents()
+                            console.log(storyHTML);
+                            $('.opponent-char').append(storyHTML);
+
+                        } else if (snapshot.child('players/2/userChar').val() === 'char-4'){
+                            console.log(snapshot.child('players/2/userChar').val())
+                            var storyHTML = $('#char-4').contents()
+                            console.log(storyHTML);
+                            $('.opponent-char').append(storyHTML);
+
+                        } 
+                       
+
+                    }
+                    if (game.variables.player === 2){
+                        var opponent = $('.opponent-char')
+                        console.log(opponent);
+                        console.log($('#char-1'))
+                        if (snapshot.child('players/1/userChar').val() === 'char-1'){
+                            console.log(snapshot.child('players/1/userChar').val())
+                            var storyHTML = $('#char-1').contents()
+                            console.log(storyHTML);
+                            $('.opponent-char').append(storyHTML);
+                        } else if (snapshot.child('players/1/userChar').val() === 'char-2'){
+                            console.log(snapshot.child('players/1/userChar').val())
+                            var storyHTML = $('#char-2').contents()
+                            console.log(storyHTML);
+                            $('.opponent-char').append(storyHTML);
+
+                        } else if (snapshot.child('players/1/userChar').val() === 'char-3'){
+                            console.log(snapshot.child('players/1/userChar').val())
+                            var storyHTML = $('#char-3').contents()
+                            console.log(storyHTML);
+                            $('.opponent-char').append(storyHTML);
+
+                        } else if (snapshot.child('players/1/userChar').val() === 'char-4'){
+                            console.log(snapshot.child('players/1/userChar').val())
+                            var storyHTML = $('#char-4').contents()
+                            console.log(storyHTML);
+                            $('.opponent-char').append(storyHTML);
+
+                        } 
+                       
+
+                    } 
                       
                 }
             });
@@ -607,7 +669,6 @@ $(document).ready(function(){
     game.functions.chosenHype();
     game.functions.gotCharacter();
     AOS.init();
-// Fix the scroll issues later.
 // Get new domain name
 // Fix plurals in rhymes
 // Append other character to build rap screen
