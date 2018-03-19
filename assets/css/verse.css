@@ -236,8 +236,13 @@ input{
 
 /* battle */
 .gif-img{
-    width: 80%;
-    height: 200px;
+    width: 500px;
+    height: 300px;
+}
+#restart-game{
+    position: relative;
+    margin: 0 auto;
+    top: 100px;
 }
 /* Footer */
 footer{

@@ -125,6 +125,7 @@ game = {
                 }
 
                 }).then(function(response){
+                    console.log(response);
                     if(response.rhymes.all === undefined || response.rhymes.all.length === 1){
                         $(".rhyme-text").text("Idk bro. Try another line...");
                     }
@@ -147,6 +148,7 @@ game = {
                     else{
                         length = bigRhymeArray.length;
                     }
+                    console.log(rhymeArray);
                     for(i = 0; i < bigRhymeArray.length; i++){
                         if(rhymeArray.length === length){
                             $(".rhyme-text").empty();
@@ -225,6 +227,7 @@ game = {
                     var memeWord1 = $('<h2>').text(snapshot.child('1').val().userImage.randomSentence);
                     var memeSentence1 = $('<p>').text(snapshot.child('1').val().userImage.userSentence);
                     var memePicture1 = $('<img>').attr('src', snapshot.child('1').val().userImage.image);
+                    memePicture1.addClass('gif-img')
                     memeContainer1.append(memeWord1).append(memePicture1).append(memeSentence1);
                     
                     
@@ -238,6 +241,8 @@ game = {
                     var memeWord2 = $('<h2>').text(snapshot.child('2').val().userImage.randomSentence);
                     var memeSentence2 = $('<p>').text(snapshot.child('2').val().userImage.userSentence);
                     var memePicture2 = $('<img>').attr('src', snapshot.child('2').val().userImage.image);
+                    memePicture2.addClass('gif-img')
+                    
                     memeContainer2.append(memeWord2).append(memePicture2).append(memeSentence2);
                     console.log('testing inside')
                 
@@ -310,7 +315,11 @@ game = {
                     $('html, body').animate({
                         scrollTop: $(".battle").offset().top
                 }, 400); 
-                // $('.build-rap').fadeOut();  
+                $('.build-rap').fadeOut();  
+                $('footer').show();  
+                setTimeout(function(){
+                    $('#restart-game').fadeIn();
+                }, 7000);
                 }
             }, 1000)
             
@@ -512,15 +521,21 @@ game = {
                 } else{
                     $('.rhyme-text').text('Need rhymes?')
                 }
+                
             }, function(){
                 $('.rhyme-box').fadeOut();
             });
             $('.hype-chosen').on('click', function(){
-                    $('.rhyme-box').show();
-                    game.functions.rhymeHelp(game.variables.word);
+                // $('.rhyme-box').show();
+                game.functions.rhymeHelp(game.variables.word);
             })
+            
         },
-
+        restart : function(){
+            $('#restart-game').on('click', function(){
+                location.reload();
+            });
+        },
         goToQueryPage: function(){
             var indexNumString = (game.pic.indexNum).toString();
             var playerString = (game.variables.player).toString();
@@ -533,10 +548,20 @@ game = {
 
 
 $(document).ready(function(){
+    game.onClicks.restart();
+    $('#restart-game').hide();
+    $('footer').hide();
     game.functions.generateGame();
     game.onClicks.getUserName();
     game.onClicks.chooseHype();  
     AOS.init();
+// Fix the scroll issues later.
+// Get new domain name
+// Fix plurals in rhymes
+// Append other character to build rap screen
+// Style images to share
+// Fix the instructions
+// Check if fiberbase variables are empty instead of using steps
 
     database.ref().on("value", function(snapshot){
         console.log(snapshot.child('players/1/hypeChosen').val());
