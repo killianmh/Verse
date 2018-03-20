@@ -6,21 +6,33 @@ body{
     color: black;
 }
 #container{
-    width: 200%;
+    width: 100%;
     text-align: center;
     position: relative;
     margin: 0 auto;
     top: 50px;
 }
+#atstbx{
+    width: 100%;
+    max-width: 700px;
+}
+.at-style-responsive .at-share-btn{
+    
+}
+.addthis_inline_share_toolbox{
+    position: relative;
+    top: 40px;
+}
 .meme-container {
     background: rgba(0, 0, 0, 0.74);
     border-radius: 6px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    /* position: absolute; */
+    /* top: 50%; */
+    /* left: 50%; */
     padding: 20px;
-    margin: -300px 0 0 -300px;
+    /* margin: -300px 0 0 -300px; */
     color: white;
+    max-width: 600px;
 }
 
 .meme-picture{

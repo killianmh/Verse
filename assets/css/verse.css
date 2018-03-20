@@ -264,6 +264,22 @@ input{
 }
 
 
+@media screen and (max-width: 430px){
+    .rhyme-box{
+        left: 26%;
+    }
+}
+@media screen and (max-width: 375px){
+    .rhyme-box{
+        left: 21%;
+    }
+}
+@media screen and (max-width: 320px){
+    .rhyme-box{
+        left: 16%;
+    }
+}
+
 /* battle */
 .gif-img{
     width: 500px;
