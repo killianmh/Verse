@@ -300,7 +300,7 @@ input{
         height: 200px;
     }
     .meme-container1>h3,
-    .meme-container>h3{
+    .meme-container2>h3{
         font-size: 12px;
     }
 }

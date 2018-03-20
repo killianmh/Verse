@@ -7,6 +7,10 @@ body{
 }
 #container{
     width: 200%;
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+    top: 50px;
 }
 .meme-container {
     background: rgba(0, 0, 0, 0.74);
