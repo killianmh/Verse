@@ -276,13 +276,12 @@ input{
     /* border-radius: 6px; */
 }
 #restart-game{
-    position: relative;
-    margin: 0 auto;
-    top: 100px;
+    margin: 100px auto;
 }
 .rap{
     text-align: center;
     position: relative;
+    margin: 0 auto;
     top: 50px;
 }
 .prepare-wait>p{
@@ -295,6 +294,16 @@ input{
     margin: 0 auto;
     line-height: 100vh;
 }
+@media screen and (max-width: 600px){
+    .gif-img{
+        width: 290px;
+        height: 200px;
+    }
+    .meme-container1>h3,
+    .meme-container>h3{
+        font-size: 12px;
+    }
+}
 /* Footer */
 footer{
     height: 100px;
@@ -302,6 +311,7 @@ footer{
     text-align: center;
     display: flex;
     align-items: center; 
+    padding: 0 10px;
 }
 footer p{
     margin: 0 auto;
