@@ -129,7 +129,7 @@ game = {
                     if(response.rhymes.all === undefined || response.rhymes.all.length === 1){
                         $(".rhyme-text").text("Idk bro. Try another line...");
                     }
-                else{
+                else if (response.rhymes.all.length > numWords){
                    var rhymeArray = [];
                    var bigRhymeArray = response.rhymes.all;
         
@@ -166,6 +166,16 @@ game = {
                                 rhymeArray.push(bigRhymeArray[rand]);
                             }
                         }
+                    }
+                }
+                else{
+                    if(response.rhymes.all.includes(word)){
+                      var index = response.rhymes.all.indexOf(word);
+                      response.rhymes.all.splice(index,1);
+                    }
+                    $(".rhyme-text").empty();
+                    for(i = 0; i < response.rhymes.all.length; i++){
+                        $(".rhyme-text").append("<li>"+response.rhymes.all[i]+"</li>");
                     }
                 }
                 })
