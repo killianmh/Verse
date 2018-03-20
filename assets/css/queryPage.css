@@ -5,16 +5,18 @@ body{
     background-attachment: fixed;
     color: black;
 }
-
+#container{
+    width: 200%;
+}
 .meme-container {
     background: rgba(0, 0, 0, 0.74);
     border-radius: 6px;
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 600px;
-    height: 400px;
+    padding: 20px;
     margin: -300px 0 0 -300px;
+    color: white;
 }
 
 .meme-picture{
@@ -22,4 +24,13 @@ body{
     width: 500px;
     height: 300px;
     border-radius: 6px;
+}
+@media screen and (max-width: 600px){
+    .gif-img{
+        width: 290px;
+        height: 200px;
+    }
+    .meme-container>h3,{
+        font-size: 12px;
+    }
 }
