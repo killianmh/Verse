@@ -675,7 +675,7 @@ game = {
             var indexNumString = (game.pic.indexNum).toString();
             var playerString = (game.variables.player).toString();
             $('.meme-container'+ playerString).on('click', function(){
-            document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + indexNumString;
+            document.location.href = "https://stevenhorkey.github.io/Project-One/queryPage.html?images=" + indexNumString+'&blank=blank';
         });
         }
     }
